@@ -1,3 +1,4 @@
+(await import("dotenv")).config();
 import { Client, Collection } from "discord.js";
 import { Button } from "./types/Button.js";
 import { Command } from "./types/Command.js";
@@ -21,7 +22,6 @@ export const client: Client = new Client({
         }
     }
 });
-
 
 client.commands = new Collection();
 client.preconditions = new Collection();
