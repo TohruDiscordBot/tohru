@@ -1,6 +1,6 @@
 
 import { createLogger, Logger, format, transports } from "winston";
-import { ENV } from "./constants";
+import { ENV } from "./constants.js";
 
 const customFormat = format.printf((info) => {
     return `[${new Date().toLocaleString()}] [${info.level.toUpperCase()}]: ${info.message}`;

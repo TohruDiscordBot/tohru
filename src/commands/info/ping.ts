@@ -6,11 +6,12 @@ registerCommand({
     name: "ping",
     description: "🏓 Show the ping between the bot and the server.",
     async run(interaction: CommandInteraction): Promise<void> {
+        const ping: number = client.ws.shards.get(interaction.guild.shardId).ping;
         await interaction.editReply({
             embeds: [
                 {
                     color: Colors.Red,
-                    description: `🏓 It took me ${client.ws.ping}ms to fly from my house to here.`
+                    description: `🏓 It took me ${ping}ms to fly from my house to here.`
                 }
             ]
         });
