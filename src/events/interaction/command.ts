@@ -38,7 +38,7 @@ client.on("interactionCreate", async (interaction: Interaction) => {
             logger.debug(`[INTERACTION] Interaction token: ${interaction.token}.`);
         } catch (e: any) {
             logger.warn(`[INTERACTION] Command ${interaction.commandName} executed with errors.`)
-            logger.error(`[INTERACTION]` + e);
+            logger.error(`[INTERACTION] ` + e);
         }
     }
 });
