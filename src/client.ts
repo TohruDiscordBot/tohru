@@ -13,8 +13,15 @@ declare module "discord.js" {
 }
 
 export const client: Client = new Client({
-    intents: GATEWAY_INTENTS
+    intents: GATEWAY_INTENTS,
+    sweepers: {
+        messages: {
+            lifetime: 21600,
+            interval: 43200
+        }
+    }
 });
+
 
 client.commands = new Collection();
 client.preconditions = new Collection();
