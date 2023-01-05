@@ -4,5 +4,5 @@ import { logger } from "../../utils/logger.js";
 
 if (ENV !== "prod")
     client.on("debug", (msg: string) => {
-        logger.debug(msg)
+        logger.debug(`[CLIENT] ` + msg);
     });
