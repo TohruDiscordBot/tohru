@@ -11,7 +11,7 @@ registerCommand({
             embeds: [
                 {
                     color: Colors.Red,
-                    description: `🏓 It took me ${ping}ms to fly from my house to here.`
+                    description: `🏓 It took me ${ping}ms to fly here from my house.`
                 }
             ]
         });
