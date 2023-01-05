@@ -8,4 +8,4 @@ export const GATEWAY_INTENTS: GatewayIntentBits[] = [
     IntentsBitField.Flags.MessageContent
 ];
 
-export const ENV: string = process.env.NODE_ENV;
+export const ENV: string = process.env.NODE_ENV.toLowerCase();
