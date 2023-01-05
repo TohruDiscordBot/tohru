@@ -3,7 +3,7 @@
 {
 	"name": "Alpine",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "Dockerfile",
+	"image": "mcr.microsoft.com/devcontainers/base:alpine-3.17",
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {}
 	}
