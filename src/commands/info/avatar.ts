@@ -7,7 +7,7 @@ registerCommand({
     options: [
         {
             name: "member",
-            description: "👪 The member to check for information.",
+            description: "👪 The member to get the avatar.",
             type: ApplicationCommandOptionType.User,
             required: false
         }
