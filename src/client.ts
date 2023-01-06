@@ -1,4 +1,5 @@
-import { Client, Collection } from "discord.js";
+(await import("dotenv")).config();
+import { Client, Collection, Options } from "discord.js";
 import { Button } from "./types/Button.js";
 import { Command } from "./types/Command.js";
 import { Precondition } from "./types/Precondition.js";
@@ -15,13 +16,18 @@ declare module "discord.js" {
 export const client: Client = new Client({
     intents: GATEWAY_INTENTS,
     sweepers: {
+        ...Options.DefaultSweeperSettings,
         messages: {
             lifetime: 21600,
             interval: 43200
         }
-    }
+    },
+    makeCache: Options.cacheWithLimits({
+        ...Options.DefaultMakeCacheSettings,
+        MessageManager: 25,
+        ReactionManager: 0
+    })
 });
-
 
 client.commands = new Collection();
 client.preconditions = new Collection();

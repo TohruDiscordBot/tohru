@@ -1,21 +1,18 @@
 (await import("dotenv")).config();
-import { client } from "./client.js";
-import { loader } from "./utils/loader.js";
+import { Shard, ShardingManager } from "discord.js";
 import { logger } from "./utils/logger.js";
 
-logger.info("[CLIENT] Initializing...");
-
-process.on("uncaughtException", (err: Error) => logger.error(err.message));
-
-logger.info("[CLIENT] Loading events and commands...");
-
-await loader(
-    "dist/events",
-    "dist/commands"
+const manager: ShardingManager = new ShardingManager(
+    "dist/launch.js",
+    {
+        token: process.env.DISCORD_TOKEN,
+        respawn: true,
+        totalShards: "auto"
+    }
 );
 
-logger.info("[CLIENT] Loaded events and commands.");
+manager.on("shardCreate", (shard: Shard) => {
+    logger.info(`[SHARDING MANAGER] Shard #${shard.id} spawned.`)
+});
 
-client.login(process.env.DISCORD_TOKEN);
-
-export { };
+await manager.spawn();
