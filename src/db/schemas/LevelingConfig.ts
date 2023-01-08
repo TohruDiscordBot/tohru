@@ -1,9 +1,14 @@
-import { prop, Ref } from "@typegoose/typegoose";
+import { modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
 import { GuildConfigSchema } from "./GuildConfig.js";
 
+@modelOptions({
+    options: {
+        allowMixed: Severity.ALLOW
+    }
+})
 export class LevelingConfigSchema {
-    @prop({ ref: () => GuildConfigSchema })
-    public guild: Ref<GuildConfigSchema>
+    @prop({ ref: () => GuildConfigSchema, type: () => String })
+    public guild: Ref<GuildConfigSchema, string>
 
     @prop()
     public leaderboard: string[];
@@ -16,4 +21,7 @@ export class LevelingConfigSchema {
 
     @prop()
     public maxXp: number;
+
+    @prop()
+    public channel: string;
 }

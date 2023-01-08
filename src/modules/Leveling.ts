@@ -1,17 +1,31 @@
 import { Collection, Message } from "discord.js";
 import { GuildConfig, GuildConfigSchema } from "../db/schemas/GuildConfig.js";
 import { Member, MemberSchema } from "../db/schemas/Member.js";
+import { defaultGuildSetting } from "../utils/defaultSettings.js";
 
 const msgCache: Collection<string, Collection<string, Message>> = new Collection();
 
 export async function handleLeveling(message: Message): Promise<void> {
-    const member: MemberSchema = await Member.findOne({
+    let guildConfig: GuildConfigSchema = await GuildConfig.findOne({
+        id: message.guildId
+    });
+
+    if (!guildConfig) {
+        guildConfig = await GuildConfig.create(defaultGuildSetting(message.guild));
+    }
+
+    let member: MemberSchema = await Member.findOne({
         id: message.author.id
     });
 
-    const guildConfig: GuildConfigSchema = await GuildConfig.findOne({
-        id: message.guildId
-    });
+    if (!member) {
+        member = await Member.create({
+            id: message.author.id,
+            guild: message.guildId,
+            exp: 0,
+            level: 0
+        });
+    }
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));
 
