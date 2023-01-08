@@ -13,16 +13,6 @@ export class MemberSchema {
 
     @prop()
     public level: number;
-
-    public async setLevel(this: DocumentType<MemberSchema>, level: number): Promise<void> {
-        this.level = level;
-        await this.save();
-    }
-
-    public async setExp(this: DocumentType<MemberSchema>, exp: number): Promise<void> {
-        this.exp = exp;
-        await this.save();
-    }
 }
 
 export const Member = getModelForClass(MemberSchema);
