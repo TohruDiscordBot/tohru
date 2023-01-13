@@ -2,6 +2,9 @@ import { CommandInteraction, ApplicationCommandOptionType, GuildMember, Colors }
 import { Member, MemberSchema } from "../../db/schemas/Member.js";
 import { registerCommand } from "../index.js";
 
+// @ts-ignore
+import levelData from "../../../conf/levels.json" assert { type: "json" };
+
 registerCommand({
     name: "level",
     description: "🕹 Checks the level of a member.",
@@ -31,6 +34,14 @@ registerCommand({
             await Member.create(levelMem);
         }
 
+        let requiredExp: number = 0;
+
+        for (const lvl of levelData) {
+            if (lvl.level === levelMem.level + 1) {
+                requiredExp = lvl.exp - levelMem.exp;
+            }
+        }
+
         await interaction.editReply({
             embeds: [
                 {
@@ -38,7 +49,7 @@ registerCommand({
                     title: "Level",
                     description: `${member.user.tag}'s level is ${levelMem.level}`,
                     footer: {
-                        text: `nexp until next level`
+                        text: `${requiredExp}exp until next level`
                     }
                 }
             ]

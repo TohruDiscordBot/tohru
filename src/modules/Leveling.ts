@@ -54,7 +54,10 @@ export async function handleLeveling(message: Message): Promise<void> {
                     {
                         color: Colors.Aqua,
                         title: "Leveled Up!",
-                        description: `Your new level is ${member.level + 1}`
+                        description: `Your new level is ${member.level + 1}`,
+                        footer: {
+                            text: `${level.exp - member.exp} exp until next level`
+                        }
                     }
                 ]
             });
