@@ -49,6 +49,14 @@ export async function handleLeveling(message: Message): Promise<void> {
         if (level.level === member.level + 1 && member.exp >= level.exp) {
             await setLevel(member.id, member.level + 1);
 
+            let requiredExp: number = 0;
+
+            for (const lvl of levelData) {
+                if (lvl.level === member.level + 1) {
+                    requiredExp = lvl.exp - member.exp;
+                }
+            }
+
             await message.reply({
                 embeds: [
                     {
@@ -56,7 +64,7 @@ export async function handleLeveling(message: Message): Promise<void> {
                         title: "Leveled Up!",
                         description: `Your new level is ${member.level + 1}`,
                         footer: {
-                            text: `${level.exp - member.exp} exp until next level`
+                            text: `${requiredExp} exp until next level`
                         }
                     }
                 ]

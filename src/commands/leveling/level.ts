@@ -49,7 +49,7 @@ registerCommand({
                     title: "Level",
                     description: `${member.user.tag}'s level is ${levelMem.level}`,
                     footer: {
-                        text: `${requiredExp}exp until next level`
+                        text: `${requiredExp} exp until next level`
                     }
                 }
             ]
