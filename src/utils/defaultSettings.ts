@@ -1,11 +1,11 @@
 import { Guild } from "discord.js";
 import { GuildConfigSchema } from "../db/schemas/GuildConfig";
 
-export function defaultGuildSetting(guild: Guild): GuildConfigSchema {
+export function defaultGuildSetting(id: string): GuildConfigSchema {
     return {
-        id: guild.id,
+        id,
         leveling: {
-            guild: guild.id,
+            guild: id,
             leaderboard: [],
             xpInterval: 60,
             minXp: 10,

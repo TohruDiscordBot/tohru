@@ -16,3 +16,20 @@ export class MemberSchema {
 }
 
 export const Member = getModelForClass(MemberSchema);
+
+export async function getMemberFromDb(id: string, guildId: string): Promise<MemberSchema> {
+    let member: MemberSchema = await Member.findOne({
+        id, guildId
+    });
+
+    if (!member) {
+        member = await Member.create({
+            id,
+            guild: guildId,
+            exp: 0,
+            level: 0
+        });
+    }
+
+    return member;
+}
