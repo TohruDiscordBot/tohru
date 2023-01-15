@@ -49,7 +49,7 @@ export async function handleLeveling(message: Message): Promise<void> {
                         title: "Leveled Up!",
                         description: `Your new level is ${member.level + 1}`,
                         footer: {
-                            text: `${requiredExp} exp until next level`
+                            text: requiredExp <= 0 ? "Maximum level reached" : `${requiredExp} exp until next level`
                         }
                     }
                 ]
