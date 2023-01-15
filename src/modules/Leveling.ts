@@ -8,9 +8,15 @@ import levelData from "../../conf/levels.json" assert { type: "json" };
 const msgCache: Collection<string, Collection<string, Message>> = new Collection();
 
 export async function handleLeveling(message: Message): Promise<void> {
-    let guildConfig: GuildConfigSchema = await getGuildFromDb(message.guildId);
+    const guildConfig: GuildConfigSchema = await getGuildFromDb(message.guildId);
 
-    let member: MemberSchema = await getMemberFromDb(message.author.id, message.guildId);
+    if (guildConfig.leveling.restrictedChannels.length && guildConfig.leveling.restrictedChannels.includes(message.channelId))
+        return;
+
+    if (guildConfig.leveling.allowedChannels.length && !guildConfig.leveling.allowedChannels.includes(message.channelId))
+        return;
+
+    const member: MemberSchema = await getMemberFromDb(message.author.id, message.guildId);
 
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));

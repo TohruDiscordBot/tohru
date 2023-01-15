@@ -23,5 +23,8 @@ export class LevelingConfigSchema {
     public maxXp: number;
 
     @prop()
-    public channel: string;
+    public allowedChannels: string[]
+
+    @prop()
+    public restrictedChannels: string[]
 }

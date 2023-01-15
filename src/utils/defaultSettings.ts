@@ -10,7 +10,8 @@ export function defaultGuildSetting(id: string): GuildConfigSchema {
             xpInterval: 60,
             minXp: 10,
             maxXp: 100,
-            channel: null
+            allowedChannels: [],
+            restrictedChannels: []
         }
     };
 }
