@@ -1,17 +1,21 @@
-import { Guild } from "discord.js";
-import { GuildConfigSchema } from "../db/schemas/GuildConfig";
+import { GuildConfigSchema } from "../db/schemas/GuildConfig.js";
+import { LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
 
 export function defaultGuildSetting(id: string): GuildConfigSchema {
     return {
         id,
-        leveling: {
-            guild: id,
-            leaderboard: [],
-            xpInterval: 60,
-            minXp: 10,
-            maxXp: 100,
-            allowedChannels: [],
-            restrictedChannels: []
-        }
+        leveling: id
+    };
+}
+
+export function defaultLevelingSetting(id: string): LevelingConfigSchema {
+    return {
+        id,
+        leaderboard: [],
+        xpInterval: 60,
+        minXp: 10,
+        maxXp: 100,
+        allowedChannels: [],
+        restrictedChannels: []
     };
 }

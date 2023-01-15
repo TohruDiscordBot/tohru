@@ -1,6 +1,6 @@
 import { Collection, Colors, Message } from "discord.js";
-import { getGuildFromDb, GuildConfigSchema } from "../db/schemas/GuildConfig.js";
 import { getMemberFromDb, Member, MemberSchema } from "../db/schemas/Member.js";
+import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
 
 // @ts-ignore
 import levelData from "../../conf/levels.json" assert { type: "json" };
@@ -8,12 +8,12 @@ import levelData from "../../conf/levels.json" assert { type: "json" };
 const msgCache: Collection<string, Collection<string, Message>> = new Collection();
 
 export async function handleLeveling(message: Message): Promise<void> {
-    const guildConfig: GuildConfigSchema = await getGuildFromDb(message.guildId);
+    const leveling: LevelingConfigSchema = await getGuildLevelingSettingFromDb(message.guildId);
 
-    if (guildConfig.leveling.restrictedChannels.length && guildConfig.leveling.restrictedChannels.includes(message.channelId))
+    if (leveling.restrictedChannels.length && leveling.restrictedChannels.includes(message.channelId))
         return;
 
-    if (guildConfig.leveling.allowedChannels.length && !guildConfig.leveling.allowedChannels.includes(message.channelId))
+    if (leveling.allowedChannels.length && !leveling.allowedChannels.includes(message.channelId))
         return;
 
     const member: MemberSchema = await getMemberFromDb(message.author.id, message.guildId);
@@ -21,12 +21,12 @@ export async function handleLeveling(message: Message): Promise<void> {
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));
 
-        await setExp(member.id, message.guildId, member.exp + randExp(guildConfig.leveling.minXp, guildConfig.leveling.maxXp));
+        await setExp(member.id, message.guildId, member.exp + randExp(leveling.minXp, leveling.maxXp));
     }
 
     const msg: Message = msgCache.get(message.author.id).get(message.guildId);
-    if (message.createdTimestamp - msg.createdTimestamp >= guildConfig.leveling.xpInterval) {
-        await setExp(member.id, message.guildId, member.exp + randExp(guildConfig.leveling.minXp, guildConfig.leveling.maxXp));
+    if (message.createdTimestamp - msg.createdTimestamp >= leveling.xpInterval) {
+        await setExp(member.id, message.guildId, member.exp + randExp(leveling.minXp, leveling.maxXp));
         msgCache.get(message.author.id).set(message.guildId, message);
     }
 

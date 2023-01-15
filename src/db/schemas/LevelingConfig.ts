@@ -1,4 +1,5 @@
-import { modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
+import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
+import { defaultLevelingSetting } from "../../utils/defaultSettings.js";
 import { GuildConfigSchema } from "./GuildConfig.js";
 
 @modelOptions({
@@ -7,8 +8,8 @@ import { GuildConfigSchema } from "./GuildConfig.js";
     }
 })
 export class LevelingConfigSchema {
-    @prop({ ref: () => GuildConfigSchema, type: () => String })
-    public guild: Ref<GuildConfigSchema, string>
+    @prop()
+    public id: Ref<GuildConfigSchema, string>
 
     @prop()
     public leaderboard: string[];
@@ -27,4 +28,22 @@ export class LevelingConfigSchema {
 
     @prop()
     public restrictedChannels: string[]
+}
+
+export const LevelingConfig = getModelForClass(LevelingConfigSchema, {
+    options: {
+        customName: "levelingConfigs"
+    }
+});
+
+export async function getGuildLevelingSettingFromDb(guildId: string): Promise<LevelingConfigSchema> {
+    let leveling: LevelingConfigSchema = await LevelingConfig.findOne({
+        id: guildId
+    });
+
+    if (!leveling) {
+        leveling = (await LevelingConfig.create(defaultLevelingSetting(guildId))) as unknown as LevelingConfigSchema;
+    }
+
+    return leveling;
 }
