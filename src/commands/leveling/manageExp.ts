@@ -20,15 +20,15 @@ registerCommand({
             required: true,
             choices: [
                 {
-                    name: "add",
+                    name: "Add",
                     value: "add"
                 },
                 {
-                    name: "remove",
+                    name: "Remove",
                     value: "remove"
                 },
                 {
-                    name: "set",
+                    name: "Set",
                     value: "set"
                 }
             ]
