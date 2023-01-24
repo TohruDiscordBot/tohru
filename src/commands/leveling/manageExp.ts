@@ -5,7 +5,7 @@ import { registerCommand } from "../index.js";
 
 registerCommand({
     name: "manageexp",
-    description: "⚙ Manage members' exp.",
+    description: "⚙ Manages members' exp.",
     options: [
         {
             name: "member",
