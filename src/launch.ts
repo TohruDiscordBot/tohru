@@ -5,7 +5,10 @@ import "./db/index.js";
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Initializing...`);
 
-process.on("uncaughtException", (err: Error) => logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err));
+process.on("uncaughtException", (err: Error) => {
+    logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err);
+    logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err.cause);
+});
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Loading events and commands...`);
 
