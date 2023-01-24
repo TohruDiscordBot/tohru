@@ -39,7 +39,7 @@ After installing all dependencies, configure the bot by copying and renaming the
 
 You may notice there is a directory called `conf` that is where configurations
 for some of the bot's modules to work. It is currently mandatory to create and
-fill out all those files for the bot to be working
+fill out all those files for the bot to be working. However you can disable the modules as you want
 
 Then build the project
 

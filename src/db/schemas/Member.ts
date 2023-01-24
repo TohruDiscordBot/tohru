@@ -15,7 +15,11 @@ export class MemberSchema {
     public level: number;
 }
 
-export const Member = getModelForClass(MemberSchema);
+export const Member = getModelForClass(MemberSchema, {
+    options: {
+        customName: "members"
+    }
+});
 
 export async function getMemberFromDb(id: string, guildId: string): Promise<MemberSchema> {
     let member: MemberSchema = await Member.findOne({

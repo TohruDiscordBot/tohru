@@ -6,7 +6,6 @@ import { logger } from "../../utils/logger.js";
 
 client.on("interactionCreate", async (interaction: Interaction) => {
     if (interaction instanceof CommandInteraction) {
-        await interaction.deferReply();
         logger.info(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] User ${interaction.user.id} at guild ${interaction.guildId} requested command ${interaction.commandName}.`);
         const command: Command = client.commands.get(interaction.commandName);
 
@@ -14,6 +13,10 @@ client.on("interactionCreate", async (interaction: Interaction) => {
             logger.warn(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] Command ${interaction.commandName} not found. Cancelling...`);
             return;
         }
+
+        await interaction.deferReply({
+            ephemeral: command.ephemeral ?? false
+        });
 
         if (command.preconditions) {
             logger.info(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] Checking preconditions for command ${interaction.commandName}.`);
