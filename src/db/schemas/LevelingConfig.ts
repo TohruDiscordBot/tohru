@@ -15,9 +15,6 @@ export class LevelingConfigSchema {
     public enable: boolean;
 
     @prop()
-    public leaderboard: string[];
-
-    @prop()
     public xpInterval: number;
 
     @prop()

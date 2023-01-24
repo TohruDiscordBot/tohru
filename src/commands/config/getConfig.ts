@@ -1,5 +1,6 @@
-import { ApplicationCommandOptionType, CommandInteraction, PermissionFlagsBits } from "discord.js";
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 import { getGuildLevelingSettingFromDb } from "../../db/schemas/LevelingConfig.js";
+import { MODULE_OPTION } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({
@@ -7,20 +8,7 @@ registerCommand({
     description: "⚙ Gives the configuration of the chosen module.",
     defaultMemberPermissions: PermissionFlagsBits.Administrator,
     ephemeral: true,
-    options: [
-        {
-            name: "module",
-            description: "📰 Name of the module.",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-            choices: [
-                {
-                    name: "Leveling",
-                    value: "leveling"
-                }
-            ]
-        }
-    ],
+    options: [MODULE_OPTION],
     async run(interaction: CommandInteraction): Promise<void> {
         let cfg: any = {};
 

@@ -12,7 +12,6 @@ export function defaultLevelingSetting(id: string): LevelingConfigSchema {
     return {
         id,
         enable: false,
-        leaderboard: [],
         xpInterval: 60,
         minXp: 10,
         maxXp: 100,
