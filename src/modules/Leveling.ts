@@ -4,11 +4,16 @@ import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schem
 
 // @ts-ignore
 import levelData from "../../conf/levels.json" assert { type: "json" };
+// @ts-ignore
+import config from "../../conf/config.json" assert { type: "json" };
 
 const msgCache: Collection<string, Collection<string, Message>> = new Collection();
 
 export async function handleLeveling(message: Message): Promise<void> {
+    if (!config.leveling.enable) return;
     const leveling: LevelingConfigSchema = await getGuildLevelingSettingFromDb(message.guildId);
+
+    if (!leveling.enable) return;
 
     if (leveling.restrictedChannels.length && leveling.restrictedChannels.includes(message.channelId))
         return;

@@ -12,6 +12,9 @@ export class LevelingConfigSchema {
     public id: Ref<GuildConfigSchema, string>
 
     @prop()
+    public enable: boolean;
+
+    @prop()
     public leaderboard: string[];
 
     @prop()
