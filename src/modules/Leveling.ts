@@ -89,4 +89,15 @@ export async function setExp(id: string, guild: string, exp: number): Promise<vo
             }
         }
     );
+
+    for (let i: number = 0; i < levelData.length; i++) {
+        if (i + 1 === levelData.length) {
+            await setLevel(id, guild, i + 1);
+            return;
+        }
+        if (levelData[i].exp <= exp && exp <= levelData[i + 1].exp) {
+            await setLevel(id, guild, i);
+            return;
+        }
+    }
 }
