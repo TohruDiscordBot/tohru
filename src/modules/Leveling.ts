@@ -64,9 +64,9 @@ function randExp(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export async function setLevel(id: string, guildId: string, level: number): Promise<void> {
+export async function setLevel(id: string, guild: string, level: number): Promise<void> {
     await Member.findOneAndUpdate(
-        { id, guildId },
+        { id, guild },
         {
             $set: {
                 level
@@ -75,9 +75,9 @@ export async function setLevel(id: string, guildId: string, level: number): Prom
     );
 }
 
-export async function setExp(id: string, guildId: string, exp: number): Promise<void> {
+export async function setExp(id: string, guild: string, exp: number): Promise<void> {
     await Member.findOneAndUpdate(
-        { id, guildId },
+        { id, guild },
         {
             $set: {
                 exp
