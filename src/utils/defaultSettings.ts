@@ -1,5 +1,6 @@
 import { GuildConfigSchema } from "../db/schemas/GuildConfig.js";
 import { LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
+import { MusicConfigSchema } from "../db/schemas/MusicConfig.js";
 
 export function defaultGuildSetting(id: string): GuildConfigSchema {
     return {
@@ -17,5 +18,12 @@ export function defaultLevelingSetting(id: string): LevelingConfigSchema {
         maxXp: 100,
         allowedChannels: [],
         restrictedChannels: []
+    };
+}
+
+export function defaultMusicSetting(id: string): MusicConfigSchema {
+    return {
+        id,
+        247: false
     };
 }
