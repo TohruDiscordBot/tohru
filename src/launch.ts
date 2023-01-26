@@ -5,13 +5,17 @@ import "./db/index.js";
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Initializing...`);
 
-process.on("uncaughtException", (err: Error) => logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err));
+process.on("uncaughtException", (err: Error) => {
+    logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err);
+    logger.error(`[CLIENT] [SHARD #${client.shard.ids}] ` + err.cause);
+});
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Loading events and commands...`);
 
 await loader(
     "dist/events",
-    "dist/commands"
+    "dist/commands",
+    "dist/preconditions"
 );
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Loaded events and commands.`);
