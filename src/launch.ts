@@ -14,7 +14,8 @@ logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Loading events and commands..
 
 await loader(
     "dist/events",
-    "dist/commands"
+    "dist/commands",
+    "dist/preconditions"
 );
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Loaded events and commands.`);
