@@ -9,7 +9,10 @@ import { Song } from "@lavaclient/queue";
 declare module "lavaclient" {
     export interface Player {
         filterStatus: {
-            nightcore: boolean
+            nightcore: boolean,
+            daycore: boolean,
+            karaoke: boolean,
+            vaporwave: boolean
         },
         prev: Song[]
     }
