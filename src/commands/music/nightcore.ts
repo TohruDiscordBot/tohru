@@ -10,7 +10,7 @@ registerCommand({
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
 
-        player.filters.timescale = (player.nightcore = !player.nightcore)
+        player.filters.timescale = (player.filterStatus.nightcore = !player.filterStatus.nightcore)
             ? { speed: 1.125, pitch: 1.125, rate: 1 }
             : undefined;
 
@@ -20,7 +20,7 @@ registerCommand({
             embeds: [
                 {
                     color: Colors.Aqua,
-                    description: `✅ ${player.nightcore ? "Enabled" : "Disabled"} nightcore.`
+                    description: `✅ ${player.filterStatus.nightcore ? "Enabled" : "Disabled"} nightcore.`
                 }
             ]
         });
