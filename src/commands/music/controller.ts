@@ -4,6 +4,7 @@ import { registerButton, registerCommand } from "../index.js";
 import { cluster } from "../../modules/Music.js";
 import { LoopType } from "@lavaclient/queue";
 import { Player } from "lavaclient";
+import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
 
 registerCommand({
     name: "controller",
@@ -133,12 +134,15 @@ async function createEmbed(interaction: CommandInteraction | ButtonInteraction):
     const { queue: { current }, filterStatus } = cluster.getPlayer(interaction.guildId);
     const member: GuildMember = await interaction.guild.members.fetch(current.requester);
 
+    const alwaysOn: boolean = !(await getMusicSettingFromDb(interaction.guildId))[247];
+
     const embed: EmbedBuilder = new EmbedBuilder()
         .setAuthor({
             name: interaction.guild.name,
             iconURL: interaction.guild.iconURL({ extension: "png", forceStatic: false })
         })
         .setTitle("Now Playing")
+        .setDescription(`24/7 music playing is ${alwaysOn ? "enabled" : "disabled"}`)
         .addFields({
             name: `**${current.title}**\n${current.uri}`,
             value: `➡ Uploader: ${current.author} | Requester: ${member.user.tag} | Length: ${moment.utc(current.length).format("HH:mm:ss")}`
