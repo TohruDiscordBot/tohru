@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Song } from "@lavaclient/queue";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Colors, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
 import { Player } from "lavaclient";
 import { cluster } from "../../modules/Music.js";
 import { registerButton, registerCommand } from "../index.js";
@@ -12,51 +12,62 @@ let divQueue: Song[][];
 
 const buttons: ButtonBuilder[] = [
     new ButtonBuilder()
-        .setCustomId("q-prev")
+        .setCustomId("pq-prev")
         .setLabel("⬅")
         .setDisabled(true)
         .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
-        .setCustomId("q-next")
+        .setCustomId("pq-next")
         .setLabel("➡")
         .setStyle(ButtonStyle.Primary),
     new ButtonBuilder()
-        .setCustomId("q-close")
+        .setCustomId("pq-close")
         .setLabel("❌")
         .setStyle(ButtonStyle.Primary)
 ];
 
 registerCommand({
-    name: "queue",
-    description: "❓ Views the queue.",
-    preconditions: ["activeQueue"],
+    name: "prevqueue",
+    description: "❓ Views the previous queue.",
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
 
-        const { queue: { tracks } } = player;
+        if (!player.prev) {
+            await interaction.editReply({
+                embeds: [
+                    {
+                        color: Colors.Red,
+                        description: "❌ There is no song in the queue."
+                    }
+                ]
+            });
+            return;
+        }
 
-        queue = tracks;
+        const { prev } = player;
 
-        const pagedQueue: Song[][] = chunk(tracks, 5);
+        queue = prev;
+
+        const pagedQueue: Song[][] = chunk(prev, 5);
 
         divQueue = pagedQueue;
         await render(interaction);
     }
 });
 
-registerButton("q-prev", async (interaction: ButtonInteraction) => {
+registerButton("pq-prev", async (interaction: ButtonInteraction) => {
     page--;
     if (page < 0) page = 0;
     await render(interaction);
 });
 
-registerButton("q-prev", async (interaction: ButtonInteraction) => {
+registerButton("pq-prev", async (interaction: ButtonInteraction) => {
     page++;
     if (page >= divQueue.length) page = 0;
     await render(interaction);
 });
 
-registerButton("q-close", async (interaction: ButtonInteraction) => {
+registerButton("pq-close", async (interaction: ButtonInteraction) => {
     try {
         await interaction.deleteReply();
     } catch (ignored: any) { }
@@ -71,7 +82,7 @@ async function createEmbed(interaction: CommandInteraction | ButtonInteraction):
             name: interaction.guild.name,
             iconURL: interaction.guild.iconURL({ extension: "png", forceStatic: false })
         })
-        .setTitle("Queue")
+        .setTitle("Previous queue")
         .setDescription("Tracks will be played in decending order")
         .setFooter({
             text: `Page ${page + 1}/${divQueue.length}`
