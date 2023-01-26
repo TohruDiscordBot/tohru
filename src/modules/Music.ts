@@ -6,6 +6,7 @@ import { logger } from "../utils/logger.js";
 
 // @ts-ignore
 import nodes from "../../conf/nodes.json" assert { type: "json" };
+import { Queue, Song } from "@lavaclient/queue";
 
 export const cluster: Cluster = new Cluster({
     nodes,
@@ -25,4 +26,8 @@ cluster.on("nodeDisconnect",
 
 cluster.on("nodeError",
     (node: ClusterNode) => logger.error(`[LAVALINK] [SHARD #${client.shard.ids}] Node ${node.conn.info.host} encountered an error.`)
+);
+
+cluster.on("nodeTrackEnd",
+    (_: ClusterNode, queue: Queue, song: Song) => queue.player.prev.push(song)
 );
