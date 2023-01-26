@@ -1,7 +1,12 @@
-import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
 import { defaultMusicSetting } from "../../utils/defaultSettings.js";
 import { GuildConfigSchema } from "./GuildConfig.js";
 
+@modelOptions({
+    options: {
+        allowMixed: Severity.ALLOW
+    }
+})
 export class MusicConfigSchema {
     @prop()
     public id: Ref<GuildConfigSchema, string>
