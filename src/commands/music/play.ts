@@ -4,12 +4,14 @@ import { LoadTracksResponse } from "@lavaclient/types/v3";
 import { cluster } from "../../modules/Music.js";
 import { DEFAULT_FILTER_STATUS, YOUTUBE_URL_REGEX } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
+import { Song } from "@lavaclient/queue";
 
 declare module "lavaclient" {
     export interface Player {
         filterStatus: {
             nightcore: boolean
-        }
+        },
+        prev: Song[]
     }
 }
 
@@ -79,7 +81,7 @@ registerCommand({
         switch (result.loadType) {
             case "SEARCH_RESULT":
             case "TRACK_LOADED":
-                player.queue.add(result.tracks[0]);
+                player.queue.add(result.tracks[0], { requester: member.user.id });
                 await interaction.editReply({
                     embeds: [
                         {
@@ -93,7 +95,7 @@ registerCommand({
                 });
                 break;
             case "PLAYLIST_LOADED":
-                player.queue.add(result.tracks);
+                player.queue.add(result.tracks, { requester: member.user.id });
                 await interaction.editReply({
                     embeds: [
                         {
@@ -153,6 +155,7 @@ registerCommand({
 
         if (!player.track) {
             player.filterStatus = DEFAULT_FILTER_STATUS;
+            player.prev = [];
             await player.queue.start();
         }
 

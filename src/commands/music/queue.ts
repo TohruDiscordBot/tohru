@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Song } from "@lavaclient/queue";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, Interaction } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
 import { Player } from "lavaclient";
 import { cluster } from "../../modules/Music.js";
 import { registerButton, registerCommand } from "../index.js";
@@ -61,7 +61,7 @@ registerButton("q-close", async (interaction: ButtonInteraction) => {
     } catch (ignored: any) { }
 });
 
-function createEmbed(interaction: CommandInteraction | ButtonInteraction): EmbedBuilder {
+async function createEmbed(interaction: CommandInteraction | ButtonInteraction): Promise<EmbedBuilder> {
     if (!queue || !divQueue) return null;
     if (page >= divQueue.length) page = 0;
 
@@ -75,15 +75,17 @@ function createEmbed(interaction: CommandInteraction | ButtonInteraction): Embed
             text: `Page 1/${divQueue.length}`
         });
 
-    buttons[1].setDisabled(divQueue.length === 1);
+    buttons[0].setDisabled(divQueue.length === 1);
+    buttons[1].setDisabled(page === divQueue.length - 1);
 
     const selected: Song[] = divQueue[page];
 
     for (const song of selected) {
+        const member: GuildMember = await interaction.guild.members.fetch(song.requester);
         embed.addFields(
             {
                 name: `${queue.indexOf(song) + 1}. **${song.title}**\n${song.uri}`,
-                value: `➡ Author: ${song.author} | Length: ${moment.utc(song.length).format("HH:mm:ss")}`
+                value: `➡ Uploader: ${song.author} | Requester: ${member.user.tag} | Length: ${moment.utc(song.length).format("HH:mm:ss")}`
             }
         );
     }
@@ -92,7 +94,7 @@ function createEmbed(interaction: CommandInteraction | ButtonInteraction): Embed
 }
 
 async function render(interaction: CommandInteraction | ButtonInteraction): Promise<void> {
-    const embed: EmbedBuilder = createEmbed(interaction);
+    const embed: EmbedBuilder = await createEmbed(interaction);
     if (!embed) return;
 
     const row: ActionRowBuilder = new ActionRowBuilder()
