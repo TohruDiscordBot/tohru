@@ -60,29 +60,6 @@ const row2Buttons: ButtonBuilder[] = [
         .setStyle(ButtonStyle.Primary)
 ];
 
-const row3Buttons: ButtonBuilder[] = [
-    new ButtonBuilder()
-        .setCustomId("np-nightcore")
-        .setLabel("🌃")
-        .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder()
-        .setCustomId("np-daycore")
-        .setLabel("☀")
-        .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder()
-        .setCustomId("np-karaoke")
-        .setLabel("🎤")
-        .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder()
-        .setCustomId("np-vaporwave")
-        .setLabel("🎉")
-        .setStyle(ButtonStyle.Primary),
-    new ButtonBuilder()
-        .setCustomId("np-clear")
-        .setLabel("🧹")
-        .setStyle(ButtonStyle.Primary)
-];
-
 registerButton("np-prev", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
     player.queue.add(player.queue.current, { next: true });
@@ -201,10 +178,7 @@ async function render(interaction: CommandInteraction | ButtonInteraction): Prom
                 .addComponents(row1Buttons),
             // @ts-ignore
             new ActionRowBuilder()
-                .addComponents(row2Buttons),
-            // @ts-ignore
-            new ActionRowBuilder()
-                .addComponents(row3Buttons)
+                .addComponents(row2Buttons)
         ]
     });
 }
