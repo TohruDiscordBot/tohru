@@ -69,13 +69,14 @@ registerCommand({
         } else result = await cluster.rest.loadTracks(`scsearch:${url}`);
 
         switch (result.loadType) {
+            case "SEARCH_RESULT":
             case "TRACK_LOADED":
                 player.queue.add(result.tracks[0]);
                 await interaction.editReply({
                     embeds: [
                         {
                             color: Colors.Red,
-                            description: `➕ Added track **${result.tracks[0].info.title}** to the queue`,
+                            description: `➕ Added track [**${result.tracks[0].info.title}**](${result.tracks[0].info.uri}) to the queue`,
                             footer: {
                                 text: `Requested by ${member.user.tag}`
                             }
@@ -90,20 +91,6 @@ registerCommand({
                         {
                             color: Colors.Red,
                             description: `➕ Added playlist **${result.playlistInfo.name}** to the queue`,
-                            footer: {
-                                text: `Requested by ${member.user.tag}`
-                            }
-                        }
-                    ]
-                });
-                break;
-            case "SEARCH_RESULT":
-                player.queue.add(result.tracks[0]);
-                await interaction.editReply({
-                    embeds: [
-                        {
-                            color: Colors.Red,
-                            description: `➕ Added track **${result.tracks[0].info.title}** to the queue`,
                             footer: {
                                 text: `Requested by ${member.user.tag}`
                             }
