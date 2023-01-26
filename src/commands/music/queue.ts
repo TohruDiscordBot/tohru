@@ -27,7 +27,7 @@ const buttons: ButtonBuilder[] = [
 
 registerCommand({
     name: "queue",
-    description: "❓ View the queue.",
+    description: "❓ Views the queue.",
     preconditions: ["activeQueue"],
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
