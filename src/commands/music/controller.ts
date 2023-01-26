@@ -1,4 +1,5 @@
 import moment from "moment";
+import { splitBar } from "string-progressbar";
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
 import { registerButton, registerCommand } from "../index.js";
 import { cluster } from "../../modules/Music.js";
@@ -131,7 +132,7 @@ registerButton("np-restart-song", async (interaction: ButtonInteraction) => {
 });
 
 async function createEmbed(interaction: CommandInteraction | ButtonInteraction): Promise<EmbedBuilder> {
-    const { queue: { current }, filterStatus } = cluster.getPlayer(interaction.guildId);
+    const { queue: { current }, position } = cluster.getPlayer(interaction.guildId);
     const member: GuildMember = await interaction.guild.members.fetch(current.requester);
 
     const alwaysOn: boolean = !(await getMusicSettingFromDb(interaction.guildId))[247];
@@ -146,6 +147,9 @@ async function createEmbed(interaction: CommandInteraction | ButtonInteraction):
         .addFields({
             name: `**${current.title}**\n${current.uri}`,
             value: `➡ Uploader: ${current.author} | Requester: ${member.user.tag} | Length: ${moment.utc(current.length).format("HH:mm:ss")}`
+        })
+        .setFooter({
+            text: `${moment.utc(position).format("HH:mm:ss")} ${splitBar(current.length, position, 20)[0]} ${moment.utc(current.length).format("HH:mm:ss")}`
         });
 
     return embed;
