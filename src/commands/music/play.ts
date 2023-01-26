@@ -2,8 +2,16 @@ import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember, 
 import { Player } from "lavaclient";
 import { LoadTracksResponse } from "@lavaclient/types/v3";
 import { cluster } from "../../modules/Music.js";
-import { YOUTUBE_URL_REGEX } from "../../utils/constants.js";
+import { DEFAULT_FILTER_STATUS, YOUTUBE_URL_REGEX } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
+
+declare module "lavaclient" {
+    export interface Player {
+        filterStatus: {
+            nightcore: boolean
+        }
+    }
+}
 
 registerCommand({
     name: "play",
@@ -143,7 +151,10 @@ registerCommand({
             } else player.connect(memberState.channelId, { deafened: true });
         }
 
-        if (!player.track) await player.queue.start();
+        if (!player.track) {
+            player.filterStatus = DEFAULT_FILTER_STATUS;
+            await player.queue.start();
+        }
 
     }
 });
