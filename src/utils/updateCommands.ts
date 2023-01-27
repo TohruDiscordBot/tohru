@@ -4,7 +4,7 @@ import { logger } from "./logger.js";
 
 export function updateCommands(): void {
     client.application.commands.cache.map(
-        async (cmd) => await client.application.commands.delete(cmd)
+        async (cmd) => await cmd.delete()
     );
 
     logger.info(`[APPLICATION COMMAND] Pushing ${client.commands.size} command(s) to Discord.`);
