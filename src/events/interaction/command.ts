@@ -6,6 +6,10 @@ import { logger } from "../../utils/logger.js";
 
 client.on("interactionCreate", async (interaction: Interaction) => {
     if (interaction instanceof CommandInteraction) {
+        if (!interaction.inGuild) {
+            logger.info(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] User ${interaction.user.id} requested command ${interaction.commandName} in DM. Cancelling...`);
+            return;
+        }
         logger.info(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] User ${interaction.user.id} at guild ${interaction.guildId} requested command ${interaction.commandName}.`);
         const command: Command = client.commands.get(interaction.commandName);
 
