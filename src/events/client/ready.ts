@@ -3,9 +3,9 @@ import { cluster } from "../../modules/Music.js";
 import { logger } from "../../utils/logger.js";
 import { updateCommands } from "../../utils/updateCommands.js";
 
-client.on("ready", () => {
+client.on("ready", async () => {
     if (client.shard.ids.length === 1) {
-        updateCommands();
+        await updateCommands();
     }
 
     cluster.connect(client.user.id);
