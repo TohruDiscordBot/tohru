@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember, 
 import { Player } from "lavaclient";
 import { LoadTracksResponse } from "@lavaclient/types/v3";
 import { cluster } from "../../modules/Music.js";
-import { DEFAULT_FILTER_STATUS, YOUTUBE_URL_REGEX } from "../../utils/constants.js";
+import { YOUTUBE_URL_REGEX } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
 import { Song } from "@lavaclient/queue";
 
@@ -157,7 +157,12 @@ registerCommand({
         }
 
         if (!player.track) {
-            player.filterStatus = DEFAULT_FILTER_STATUS;
+            player.filterStatus = {
+                nightcore: false,
+                daycore: false,
+                karaoke: false,
+                vaporwave: false
+            };
             player.prev = [];
             await player.queue.start();
         }
