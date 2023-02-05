@@ -23,13 +23,6 @@ export const MODULE_OPTION: ApplicationCommandOption = {
     ]
 }
 
-export const DEFAULT_FILTER_STATUS = {
-    nightcore: false,
-    daycore: false,
-    karaoke: false,
-    vaporwave: false
-};
-
 export const YOUTUBE_URL_REGEX: RegExp = /^(?:(?:https|http):\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be).*(?<=\/|v\/|u\/|embed\/|shorts\/|watch\?v=)(?<!\/user\/)(?<id>[\w\-]{11})(?=\?|&|$)/;
 
 export const ENV: string = process.env.NODE_ENV.toLowerCase();
