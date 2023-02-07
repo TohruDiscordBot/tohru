@@ -135,7 +135,7 @@ async function createEmbed(interaction: CommandInteraction | ButtonInteraction):
     const { queue: { current }, position } = cluster.getPlayer(interaction.guildId);
     const member: GuildMember = await interaction.guild.members.fetch(current.requester);
 
-    const alwaysOn: boolean = !(await getMusicSettingFromDb(interaction.guildId))[247];
+    const alwaysOn: boolean = (await getMusicSettingFromDb(interaction.guildId))[247];
 
     const embed: EmbedBuilder = new EmbedBuilder()
         .setAuthor({
