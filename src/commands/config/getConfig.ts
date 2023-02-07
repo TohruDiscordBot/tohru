@@ -1,5 +1,6 @@
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 import { getGuildLevelingSettingFromDb } from "../../db/schemas/LevelingConfig.js";
+import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
 import { MODULE_OPTION } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
 
@@ -17,6 +18,9 @@ registerCommand({
         switch (module) {
             case "leveling":
                 cfg = await getGuildLevelingSettingFromDb(interaction.guildId);
+                break;
+            case "music":
+                cfg = await getMusicSettingFromDb(interaction.guildId);
                 break;
         }
 

@@ -1,4 +1,4 @@
-import { defaultLevelingSetting } from "./defaultSettings.js";
+import { defaultLevelingSetting, defaultMusicSetting } from "./defaultSettings.js";
 
 export function checkJson(jsonStr: any): boolean {
     try {
@@ -18,11 +18,18 @@ export function processJsonCfg(cfg: any, guildId: string, cfgType: ConfigType): 
                 ...defaultLevelingSetting(guildId),
                 ...cfg
             };
+        case ConfigType.Music:
+            cfg.id = guildId;
+            return {
+                ...defaultMusicSetting(guildId),
+                ...cfg
+            };
         default:
             return null;
     }
 }
 
 export enum ConfigType {
-    Leveling
+    Leveling,
+    Music
 }
