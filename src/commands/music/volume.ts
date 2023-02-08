@@ -6,7 +6,7 @@ import { registerCommand } from "../index.js";
 registerCommand({
     name: "volume",
     description: "🔊 Controls the volume of Tohru.",
-    preconditions: ["activePlayer"],
+    preconditions: ["activeQueue"],
     options: [
         {
             name: "level",
@@ -20,7 +20,7 @@ registerCommand({
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
 
-        const level: number = interaction.options.get("volume") ? 100 : interaction.options.get("volume").value as number;
+        const level: number = interaction.options.get("volume") ? interaction.options.get("volume").value as number : 100;
 
         await player.setVolume(level);
 
