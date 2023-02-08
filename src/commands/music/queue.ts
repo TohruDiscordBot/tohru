@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Song } from "@lavaclient/queue";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonInteraction, ButtonStyle, Colors, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
 import { Player } from "lavaclient";
 import { cluster } from "../../modules/Music.js";
 import { registerButton, registerCommand } from "../index.js";
@@ -29,17 +29,46 @@ const buttons: ButtonBuilder[] = [
 registerCommand({
     name: "queue",
     description: "❓ Views the queue.",
-    preconditions: ["activeQueue"],
+    options: [
+        {
+            name: "prev",
+            description: "❓ Shows the previous queue",
+            type: ApplicationCommandOptionType.Boolean,
+            required: false
+        }
+    ],
+    preconditions: ["activePlayer"],
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
+        const isPrev: boolean = interaction.options.get("prev") ? interaction.options.get("prev").value as boolean : false;
 
-        const { queue: { tracks } } = player;
+        const { queue: { tracks, previous } } = player;
 
-        queue = tracks;
+        if (isPrev && !previous.length) {
+            await interaction.editReply({
+                embeds: [
+                    {
+                        color: Colors.Red,
+                        description: "❌ There is no song in the queue."
+                    }
+                ]
+            });
+            return;
+        }
 
-        const pagedQueue: Song[][] = chunk(tracks, 5);
-
-        divQueue = pagedQueue;
+        if (!isPrev && !tracks.length) {
+            await interaction.editReply({
+                embeds: [
+                    {
+                        color: Colors.Red,
+                        description: "❌ There is no song in the queue."
+                    }
+                ]
+            });
+            return;
+        }
+        queue = isPrev ? previous : tracks;
+        divQueue = chunk(queue, 5);
         await render(interaction);
     }
 });

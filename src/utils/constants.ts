@@ -19,6 +19,10 @@ export const MODULE_OPTION: ApplicationCommandOption = {
         {
             name: "Leveling",
             value: "leveling"
+        },
+        {
+            name: "Music",
+            value: "music"
         }
     ]
 }

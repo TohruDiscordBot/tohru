@@ -14,6 +14,11 @@ client.on("interactionCreate", async (interaction: Interaction) => {
             return;
         }
 
+        if (interaction.message.createdAt.getTime() < client.readyAt.getTime()) {
+            logger.warn(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] Button ${interaction.customId} attached to an unknown message. Cancelling...`);
+            return;
+        }
+
         try {
             await button(interaction);
             logger.info(`[INTERACTION] [SHARD #${interaction.guild.shard.id}] Button ${interaction.customId} executed.`);
