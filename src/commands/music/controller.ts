@@ -3,7 +3,7 @@ import { splitBar } from "string-progressbar";
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
 import { registerButton, registerCommand } from "../index.js";
 import { cluster } from "../../modules/Music.js";
-import { LoopType } from "@lavaclient/queue";
+import { LoopType, Song } from "@lavaclient/queue";
 import { Player } from "lavaclient";
 import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
 
@@ -64,9 +64,8 @@ const row2Buttons: ButtonBuilder[] = [
 
 registerButton("np-prev", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
-    player.queue.add(player.queue.current, { next: true });
-    player.queue.add(player.prev.pop(), { next: true });
-    await player.queue.next();
+    if (player.track !== undefined) player.queue.add(player.queue.current, { next: true });
+    await player.play(player.queue.previous.pop(), { noReplace: false });
     await render(interaction);
 });
 
@@ -84,14 +83,18 @@ registerButton("np-pause", async (interaction: ButtonInteraction) => {
 
 registerButton("np-next", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
-    await player.queue.skip();
+    const current: Song = player.queue.current;
+    if (!await player.queue.next()) {
+        await player.stop();
+    }
+    player.queue.emit("trackEnd", current);
     await render(interaction);
 });
 
 registerButton("np-restart-queue", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
     player.queue.add(player.queue.current, { next: true });
-    player.queue.add(player.prev, { next: true });
+    player.queue.add(player.queue.previous, { next: true });
     await player.queue.next();
     await render(interaction);
 });
@@ -143,13 +146,20 @@ async function createEmbed(interaction: CommandInteraction | ButtonInteraction):
             iconURL: interaction.guild.iconURL({ extension: "png", forceStatic: false })
         })
         .setTitle("Now Playing")
-        .setDescription(`24/7 music playing is ${alwaysOn ? "enabled" : "disabled"}`)
-        .addFields({
-            name: `**${current.title}**\n${current.uri}`,
-            value: `➡ Uploader: ${current.author} | Requester: ${member.user.tag} | Length: ${moment.utc(current.length).format("HH:mm:ss")}`
-        })
-        .setFooter({
-            text: `${moment.utc(position).format("HH:mm:ss")} ${splitBar(current.length, position, 20)[0]} ${moment.utc(current.length).format("HH:mm:ss")}`
+        .setDescription(`24/7 music playing is ${alwaysOn ? "enabled" : "disabled"}`);
+    if (current) {
+        embed
+            .addFields({
+                name: `**${current.title}**\n${current.uri}`,
+                value: `➡ Uploader: ${current.author} | Requester: ${member.user.tag} | Length: ${moment.utc(current.length).format("HH:mm:ss")}`
+            })
+            .setFooter({
+                text: `${moment.utc(position).format("HH:mm:ss")} ${splitBar(current.length, position, 20)[0]} ${moment.utc(current.length).format("HH:mm:ss")}`
+            });
+    } else
+        embed.addFields({
+            name: "No song is being played",
+            value: "Please add a song"
         });
 
     return embed;
@@ -160,10 +170,10 @@ async function render(interaction: CommandInteraction | ButtonInteraction): Prom
     const player: Player = cluster.getPlayer(interaction.guildId);
 
     // Yandere dev moment
-    row1Buttons[0].setDisabled(player.prev.length === 0);
+    row1Buttons[0].setDisabled(player.queue.previous.length === 0);
     row1Buttons[1].setDisabled(!player.paused);
     row1Buttons[2].setDisabled(player.paused);
-    row1Buttons[3].setDisabled(player.queue.tracks.length === 0);
+    row1Buttons[3].setDisabled(player.track === undefined);
 
     if (player.queue.loop.type === LoopType.Queue) {
         row2Buttons[0].setStyle(ButtonStyle.Danger);
