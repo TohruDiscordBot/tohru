@@ -27,7 +27,3 @@ cluster.on("nodeDisconnect",
 cluster.on("nodeError",
     (node: ClusterNode) => logger.error(`[LAVALINK] [SHARD #${client.shard.ids}] Node ${node.conn.info.host} encountered an error.`)
 );
-
-cluster.on("nodeTrackEnd",
-    (_: ClusterNode, queue: Queue, song: Song) => queue.player.prev.push(song)
-);
