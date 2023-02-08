@@ -65,7 +65,7 @@ const row2Buttons: ButtonBuilder[] = [
 registerButton("np-prev", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
     if (player.track !== undefined) player.queue.add(player.queue.current, { next: true });
-    await player.play(player.queue.previous.pop(), { noReplace: false });
+    await player.play(player.prev.pop(), { noReplace: false });
     await render(interaction);
 });
 
@@ -94,7 +94,7 @@ registerButton("np-next", async (interaction: ButtonInteraction) => {
 registerButton("np-restart-queue", async (interaction: ButtonInteraction) => {
     const player: Player = cluster.getPlayer(interaction.guildId);
     player.queue.add(player.queue.current, { next: true });
-    player.queue.add(player.queue.previous, { next: true });
+    player.queue.add(player.prev, { next: true });
     await player.queue.next();
     await render(interaction);
 });
@@ -170,7 +170,7 @@ async function render(interaction: CommandInteraction | ButtonInteraction): Prom
     const player: Player = cluster.getPlayer(interaction.guildId);
 
     // Yandere dev moment
-    row1Buttons[0].setDisabled(player.queue.previous.length === 0);
+    row1Buttons[0].setDisabled(player.prev.length === 0);
     row1Buttons[1].setDisabled(!player.paused);
     row1Buttons[2].setDisabled(player.paused);
     row1Buttons[3].setDisabled(player.track === undefined);

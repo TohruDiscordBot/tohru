@@ -13,7 +13,8 @@ declare module "lavaclient" {
             daycore: boolean,
             karaoke: boolean,
             vaporwave: boolean
-        }
+        },
+        prev: Song[]
     }
 }
 
@@ -162,7 +163,8 @@ registerCommand({
                 karaoke: false,
                 vaporwave: false
             };
-            player.queue.on("trackEnd", (song: Song) => player.queue.previous.push(song));
+            player.queue.on("trackEnd", (song: Song) => player.prev.push(song));
+            player.prev = [];
             await player.queue.start();
         }
 

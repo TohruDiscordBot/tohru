@@ -37,14 +37,14 @@ registerCommand({
             required: false
         }
     ],
-    preconditions: ["activePlayer"],
+    preconditions: ["availablePlayer"],
     async run(interaction: CommandInteraction): Promise<void> {
         const player: Player = cluster.getPlayer(interaction.guildId);
         const isPrev: boolean = interaction.options.get("prev") ? interaction.options.get("prev").value as boolean : false;
 
-        const { queue: { tracks, previous } } = player;
+        const { queue: { tracks }, prev } = player;
 
-        if (isPrev && !previous.length) {
+        if (isPrev && !prev.length) {
             await interaction.editReply({
                 embeds: [
                     {
@@ -67,7 +67,7 @@ registerCommand({
             });
             return;
         }
-        queue = isPrev ? previous : tracks;
+        queue = isPrev ? prev : tracks;
         divQueue = chunk(queue, 5);
         await render(interaction);
     }
