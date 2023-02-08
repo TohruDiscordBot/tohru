@@ -5,6 +5,7 @@ import { registerCommand } from "../index.js";
 registerCommand({
     name: "alwayson",
     description: "🟢 Makes Tohru sing endlessly.",
+    preconditions: ["activeQueue"],
     async run(interaction: CommandInteraction): Promise<void> {
         const alwaysOn: boolean = !(await getMusicSettingFromDb(interaction.guildId))[247];
 
