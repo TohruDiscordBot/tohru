@@ -6,7 +6,6 @@ import { logger } from "../utils/logger.js";
 
 // @ts-ignore
 import nodes from "../../conf/nodes.json" assert { type: "json" };
-import { Queue, Song } from "@lavaclient/queue";
 
 export const cluster: Cluster = new Cluster({
     nodes,
