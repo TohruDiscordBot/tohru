@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder } from "discord.js";
 import { Player } from "lavaclient";
-import { cluster } from "../../modules/Music.js";
+import { cluster } from "../../modules/music.js";
 import { clearFilters, toggleDaycore, toggleKaraoke, toggleNightcore, toggleVaporWave } from "../../utils/filterHelpers.js";
 import { registerButton, registerCommand } from "../index.js";
 

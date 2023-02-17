@@ -2,7 +2,7 @@ import moment from "moment";
 import { Song } from "@lavaclient/queue";
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonInteraction, ButtonStyle, Colors, CommandInteraction, EmbedBuilder, GuildMember, Interaction } from "discord.js";
 import { Player } from "lavaclient";
-import { cluster } from "../../modules/Music.js";
+import { cluster } from "../../modules/music.js";
 import { registerButton, registerCommand } from "../index.js";
 import { chunk } from "../../utils/arrayUtils.js";
 

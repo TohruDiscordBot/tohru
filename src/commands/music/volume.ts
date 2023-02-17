@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Colors, CommandInteraction } from "discord.js";
 import { Player } from "lavaclient";
-import { cluster } from "../../modules/Music.js";
+import { cluster } from "../../modules/music.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({

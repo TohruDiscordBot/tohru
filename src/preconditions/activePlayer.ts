@@ -1,6 +1,6 @@
 import { Colors, CommandInteraction } from "discord.js";
 import { Player } from "lavaclient";
-import { cluster } from "../modules/Music.js";
+import { cluster } from "../modules/music.js";
 import { PreconditionResult } from "../types/Precondition.js";
 import { registerPrecondition } from "./index.js";
 

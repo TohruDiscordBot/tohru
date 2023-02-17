@@ -2,7 +2,7 @@ import moment from "moment";
 import { splitBar } from "string-progressbar";
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
 import { registerButton, registerCommand } from "../index.js";
-import { cluster } from "../../modules/Music.js";
+import { cluster } from "../../modules/music.js";
 import { LoopType, Song } from "@lavaclient/queue";
 import { Player } from "lavaclient";
 import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
