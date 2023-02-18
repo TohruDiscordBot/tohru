@@ -1,5 +1,5 @@
 import { Collection, Colors, Message } from "discord.js";
-import { getMemberFromDb, Member, MemberSchema } from "../db/schemas/Member.js";
+import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../db/schemas/MemberLeveling.js";
 import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
 
 // @ts-ignore
@@ -21,7 +21,7 @@ export async function handleLeveling(message: Message): Promise<void> {
     if (leveling.allowedChannels.length && !leveling.allowedChannels.includes(message.channelId))
         return;
 
-    const member: MemberSchema = await getMemberFromDb(message.author.id, message.guildId);
+    const member: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
 
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));
@@ -70,7 +70,7 @@ function randExp(min: number, max: number): number {
 }
 
 export async function setLevel(id: string, guild: string, level: number): Promise<void> {
-    await Member.findOneAndUpdate(
+    await MemberLeveling.findOneAndUpdate(
         { id, guild },
         {
             $set: {
@@ -81,7 +81,7 @@ export async function setLevel(id: string, guild: string, level: number): Promis
 }
 
 export async function setExp(id: string, guild: string, exp: number): Promise<void> {
-    await Member.findOneAndUpdate(
+    await MemberLeveling.findOneAndUpdate(
         { id, guild },
         {
             $set: {

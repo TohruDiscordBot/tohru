@@ -1,5 +1,5 @@
 import { client } from "../../client.js";
-import { cluster } from "../../modules/Music.js";
+import { cluster } from "../../modules/music.js";
 import { logger } from "../../utils/logger.js";
 import { updateCommands } from "../../utils/updateCommands.js";
 

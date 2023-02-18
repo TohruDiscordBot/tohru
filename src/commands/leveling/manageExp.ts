@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember } from "discord.js";
-import { getMemberFromDb, MemberSchema } from "../../db/schemas/Member.js";
-import { setExp } from "../../modules/Leveling.js";
+import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/MemberLeveling.js";
+import { setExp } from "../../modules/leveling.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({
@@ -44,7 +44,7 @@ registerCommand({
         const member: GuildMember = await interaction.guild.members.fetch(interaction.options.get("member").user.id);
         const operation: string = interaction.options.get("type").value as string;
 
-        const memData: MemberSchema = await getMemberFromDb(member.id, interaction.guildId);
+        const memData: MemberLevelingSchema = await getMemberFromDb(member.id, interaction.guildId);
         let val: number = interaction.options.get("value").value as number;
 
         switch (operation) {

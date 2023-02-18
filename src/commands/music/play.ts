@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember, StageChannel, VoiceState } from "discord.js";
 import { Player } from "lavaclient";
 import { LoadTracksResponse } from "@lavaclient/types/v3";
-import { cluster } from "../../modules/Music.js";
-import { YOUTUBE_URL_REGEX } from "../../utils/constants.js";
+import { cluster } from "../../modules/music.js";
+import { IS_DEV, YOUTUBE_URL_REGEX } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
 import { Song } from "@lavaclient/queue";
 
@@ -68,7 +68,7 @@ registerCommand({
         let result: LoadTracksResponse;
 
         if (isUrl(url)) {
-            if (YOUTUBE_URL_REGEX.test(url)) {
+            if (YOUTUBE_URL_REGEX.test(url) && !IS_DEV) {
                 await interaction.editReply({
                     embeds: [
                         {
