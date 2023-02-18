@@ -1,14 +1,14 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { CommandInteraction, GuildMember } from "discord.js";
-import { Member, MemberSchema } from "../../db/schemas/Member.js";
+import { MemberLeveling, MemberLevelingSchema } from "../../db/schemas/MemberLeveling.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({
     name: "leaderboard",
     description: "➕ Shows the leveling leaderboard.",
     async run(interaction: CommandInteraction): Promise<void> {
-        const leaderboard: MemberSchema[] = (await Member.find({ guild: interaction.guildId }))
-            .sort((a: MemberSchema, b: MemberSchema) => {
+        const leaderboard: MemberLevelingSchema[] = (await MemberLeveling.find({ guild: interaction.guildId }))
+            .sort((a: MemberLevelingSchema, b: MemberLevelingSchema) => {
                 return b.exp - a.exp;
             }).slice(0, 9);
 

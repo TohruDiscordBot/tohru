@@ -1,5 +1,6 @@
 import { GuildConfigSchema } from "../db/schemas/GuildConfig.js";
 import { LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
+import { MemberLevelingSchema } from "../db/schemas/MemberLeveling.js";
 import { MusicConfigSchema } from "../db/schemas/MusicConfig.js";
 
 export function defaultGuildSetting(id: string): GuildConfigSchema {
@@ -25,5 +26,15 @@ export function defaultMusicSetting(id: string): MusicConfigSchema {
     return {
         id,
         247: false
+    };
+}
+
+export function defaultMemberLevelingSetting(id: string, guildId: string): MemberLevelingSchema {
+    return {
+        id,
+        guild: guildId,
+        exp: 0,
+        level: 0,
+        rank: 0
     };
 }

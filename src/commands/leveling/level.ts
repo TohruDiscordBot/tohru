@@ -1,5 +1,5 @@
 import { CommandInteraction, ApplicationCommandOptionType, GuildMember, Colors } from "discord.js";
-import { Member, MemberSchema } from "../../db/schemas/Member.js";
+import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../../db/schemas/MemberLeveling.js";
 import { registerCommand } from "../index.js";
 
 // @ts-ignore
@@ -22,17 +22,7 @@ registerCommand({
             member = await interaction.guild.members.fetch(interaction.user.id);
         } else member = interaction.options.getMember("member") as GuildMember;
 
-        let levelMem: MemberSchema = await Member.findOne({ id: member.user.id });
-
-        if (!levelMem) {
-            levelMem = {
-                exp: 0,
-                id: member.user.id,
-                level: 0,
-                guild: interaction.guildId
-            }
-            await Member.create(levelMem);
-        }
+        let levelMem: MemberLevelingSchema = await getMemberFromDb(member.id, interaction.guildId)
 
         let requiredExp: number = 0;
 
