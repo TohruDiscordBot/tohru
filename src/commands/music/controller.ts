@@ -5,7 +5,7 @@ import { registerButton, registerCommand } from "../index.js";
 import { cluster } from "../../modules/music.js";
 import { LoopType, Song } from "@lavaclient/queue";
 import { Player } from "lavaclient";
-import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
+import { getMusicSettingFromDb } from "../../db/schemas/guild/MusicConfig.js";
 
 registerCommand({
     name: "controller",

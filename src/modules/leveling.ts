@@ -1,6 +1,6 @@
 import { Collection, Colors, Message } from "discord.js";
-import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../db/schemas/MemberLeveling.js";
-import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
+import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../db/schemas/member/MemberLeveling.js";
+import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/guild/LevelingConfig.js";
 
 // @ts-ignore
 import levelData from "../../conf/levels.json" assert { type: "json" };

@@ -1,5 +1,5 @@
 import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
-import { defaultMusicSetting } from "../../utils/defaultSettings.js";
+import { defaultMusicSetting } from "../../../utils/defaultSettings.js";
 
 @modelOptions({
     options: {

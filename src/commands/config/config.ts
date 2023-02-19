@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { ApplicationCommandOptionType, Attachment, Colors, CommandInteraction, PermissionFlagsBits } from "discord.js";
-import { LevelingConfig } from "../../db/schemas/LevelingConfig.js";
+import { LevelingConfig } from "../../db/schemas/guild/LevelingConfig.js";
 import { MODULE_OPTION } from "../../utils/constants.js";
 import { checkJson, ConfigType, processJsonCfg } from "../../utils/jsonUtils.js";
 import { registerCommand } from "../index.js";

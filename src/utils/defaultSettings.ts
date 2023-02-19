@@ -1,6 +1,6 @@
-import { LevelingConfigSchema } from "../db/schemas/LevelingConfig.js";
-import { MemberLevelingSchema } from "../db/schemas/MemberLeveling.js";
-import { MusicConfigSchema } from "../db/schemas/MusicConfig.js";
+import { LevelingConfigSchema } from "../db/schemas/guild/LevelingConfig.js";
+import { MemberLevelingSchema } from "../db/schemas/member/MemberLeveling.js";
+import { MusicConfigSchema } from "../db/schemas/guild/MusicConfig.js";
 
 export function defaultLevelingSetting(id: string): LevelingConfigSchema {
     return {

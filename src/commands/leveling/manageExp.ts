@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember } from "discord.js";
-import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/MemberLeveling.js";
+import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
 import { setExp } from "../../modules/leveling.js";
 import { registerCommand } from "../index.js";
 

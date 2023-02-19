@@ -1,5 +1,5 @@
 import { Colors, CommandInteraction } from "discord.js";
-import { getMusicSettingFromDb, MusicConfig, MusicConfigSchema } from "../../db/schemas/MusicConfig.js";
+import { getMusicSettingFromDb, MusicConfig, MusicConfigSchema } from "../../db/schemas/guild/MusicConfig.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({

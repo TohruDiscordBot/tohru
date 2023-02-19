@@ -1,5 +1,5 @@
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
-import { defaultMemberLevelingSetting } from "../../utils/defaultSettings.js";
+import { defaultMemberLevelingSetting } from "../../../utils/defaultSettings.js";
 
 export class MemberLevelingSchema {
     @prop({ required: true })

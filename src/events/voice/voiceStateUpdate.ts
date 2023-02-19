@@ -1,7 +1,7 @@
 import { GuildMember, StageChannel, VoiceState } from "discord.js";
 import { Player } from "lavaclient";
 import { client } from "../../client.js";
-import { getMusicSettingFromDb, MusicConfigSchema } from "../../db/schemas/MusicConfig.js";
+import { getMusicSettingFromDb, MusicConfigSchema } from "../../db/schemas/guild/MusicConfig.js";
 import { cluster } from "../../modules/music.js";
 
 client.on("voiceStateUpdate", async (oldState: VoiceState, newState: VoiceState) => {
