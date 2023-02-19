@@ -1,6 +1,5 @@
 import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
 import { defaultLevelingSetting } from "../../utils/defaultSettings.js";
-import { GuildConfigSchema } from "./GuildConfig.js";
 
 @modelOptions({
     options: {
@@ -9,7 +8,7 @@ import { GuildConfigSchema } from "./GuildConfig.js";
 })
 export class LevelingConfigSchema {
     @prop()
-    public id: Ref<GuildConfigSchema, string>
+    public id: string;
 
     @prop()
     public enable: boolean;
