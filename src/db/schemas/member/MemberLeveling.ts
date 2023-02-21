@@ -1,13 +1,12 @@
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
-import { defaultMemberLevelingSetting } from "../../utils/defaultSettings.js";
-import { GuildConfigSchema } from "./GuildConfig.js";
+import { defaultMemberLevelingSetting } from "../../../utils/defaultSettings.js";
 
 export class MemberLevelingSchema {
     @prop({ required: true })
     public id: string;
 
-    @prop({ ref: () => GuildConfigSchema, type: () => String })
-    public guild: Ref<GuildConfigSchema, string>;
+    @prop()
+    public guild: string;
 
     @prop()
     public exp: number;

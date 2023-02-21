@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { CommandInteraction, GuildMember } from "discord.js";
-import { MemberLeveling, MemberLevelingSchema } from "../../db/schemas/MemberLeveling.js";
+import { MemberLeveling, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({

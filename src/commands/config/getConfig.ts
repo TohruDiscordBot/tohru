@@ -1,6 +1,6 @@
 import { CommandInteraction, PermissionFlagsBits } from "discord.js";
-import { getGuildLevelingSettingFromDb } from "../../db/schemas/LevelingConfig.js";
-import { getMusicSettingFromDb } from "../../db/schemas/MusicConfig.js";
+import { getGuildLevelingSettingFromDb } from "../../db/schemas/guild/LevelingConfig.js";
+import { getMusicSettingFromDb } from "../../db/schemas/guild/MusicConfig.js";
 import { MODULE_OPTION } from "../../utils/constants.js";
 import { registerCommand } from "../index.js";
 
