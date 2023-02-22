@@ -14,9 +14,6 @@ export class MemberLevelingSchema {
 
     @prop()
     public level: number;
-
-    @prop()
-    public rank: number;
 }
 
 export const MemberLeveling = getModelForClass(MemberLevelingSchema, {

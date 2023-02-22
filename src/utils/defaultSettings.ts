@@ -26,7 +26,6 @@ export function defaultMemberLevelingSetting(id: string, guildId: string): Membe
         id,
         guild: guildId,
         exp: 0,
-        level: 0,
-        rank: 0
+        level: 0
     };
 }
