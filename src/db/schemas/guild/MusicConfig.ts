@@ -1,5 +1,6 @@
 import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
 import { defaultMusicSetting } from "../../../utils/defaultSettings.js";
+import { ConfigType, processJsonCfg } from "../../../utils/jsonUtils.js";
 
 @modelOptions({
     options: {
@@ -27,7 +28,15 @@ export async function getMusicSettingFromDb(guildId: string): Promise<MusicConfi
 
     if (!musicCfg) {
         musicCfg = await MusicConfig.create(defaultMusicSetting(guildId));
-    }
+    } else
+        musicCfg = await MusicConfig.findOneAndReplace(
+            { id: guildId },
+            processJsonCfg(
+                JSON.stringify(musicCfg),
+                guildId,
+                ConfigType.Music
+            )
+        );
 
     return musicCfg;
 }

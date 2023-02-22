@@ -1,5 +1,6 @@
 import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
 import { defaultLevelingSetting } from "../../../utils/defaultSettings.js";
+import { ConfigType, processJsonCfg } from "../../../utils/jsonUtils.js";
 
 @modelOptions({
     options: {
@@ -41,8 +42,18 @@ export async function getGuildLevelingSettingFromDb(guildId: string): Promise<Le
     });
 
     if (!leveling) {
-        leveling = (await LevelingConfig.create(defaultLevelingSetting(guildId))) as unknown as LevelingConfigSchema;
-    }
+        leveling = await LevelingConfig.create(defaultLevelingSetting(guildId));
+    } else
+        leveling = await LevelingConfig.findOneAndReplace(
+            {
+                id: guildId
+            },
+            processJsonCfg(
+                JSON.stringify(leveling),
+                guildId,
+                ConfigType.Leveling
+            )
+        );
 
     return leveling;
 }
