@@ -9,7 +9,7 @@ import { ConfigType, processJsonCfg } from "../../../utils/jsonUtils.js";
 })
 export class MusicConfigSchema {
     @prop()
-    public id: string
+    public id: string;
 
     @prop()
     public 247: boolean;

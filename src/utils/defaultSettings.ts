@@ -1,6 +1,7 @@
 import { LevelingConfigSchema } from "../db/schemas/guild/LevelingConfig.js";
 import { MemberLevelingSchema } from "../db/schemas/member/MemberLeveling.js";
 import { MusicConfigSchema } from "../db/schemas/guild/MusicConfig.js";
+import { Collection } from "discord.js";
 
 export function defaultLevelingSetting(id: string): LevelingConfigSchema {
     return {
@@ -10,7 +11,8 @@ export function defaultLevelingSetting(id: string): LevelingConfigSchema {
         minXp: 10,
         maxXp: 100,
         allowedChannels: [],
-        restrictedChannels: []
+        restrictedChannels: [],
+        reward: new Collection()
     };
 }
 
@@ -26,6 +28,7 @@ export function defaultMemberLevelingSetting(id: string, guildId: string): Membe
         id,
         guild: guildId,
         exp: 0,
-        level: 0
+        level: 0,
+        role: ""
     };
 }

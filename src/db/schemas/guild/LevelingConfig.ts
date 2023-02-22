@@ -1,4 +1,5 @@
 import { getModelForClass, modelOptions, prop, Ref, Severity } from "@typegoose/typegoose";
+import { Collection } from "discord.js";
 import { defaultLevelingSetting } from "../../../utils/defaultSettings.js";
 import { ConfigType, processJsonCfg } from "../../../utils/jsonUtils.js";
 
@@ -24,10 +25,13 @@ export class LevelingConfigSchema {
     public maxXp: number;
 
     @prop()
-    public allowedChannels: string[]
+    public allowedChannels: string[];
 
     @prop()
-    public restrictedChannels: string[]
+    public restrictedChannels: string[];
+
+    @prop()
+    public reward: Collection<number, string>;
 }
 
 export const LevelingConfig = getModelForClass(LevelingConfigSchema, {

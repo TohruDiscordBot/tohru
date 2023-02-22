@@ -70,14 +70,29 @@ function randExp(min: number, max: number): number {
 }
 
 export async function setLevel(id: string, guild: string, level: number): Promise<void> {
+    const guildCfg: LevelingConfigSchema = await getGuildLevelingSettingFromDb(guild);
+
+    let role: string = "";
+    if (guildCfg.reward.get(level)) {
+        role = guildCfg.reward.get(level)
+    } else {
+        for (let i: number = level; i >= 1; i--) {
+            if (guildCfg.reward.get(i)) role = guildCfg.reward.get(i);
+        }
+    }
+
+
     await MemberLeveling.findOneAndUpdate(
         { id, guild },
         {
             $set: {
-                level
+                level,
+                role
             }
         }
     );
+
+
 }
 
 export async function setExp(id: string, guild: string, exp: number): Promise<void> {
