@@ -73,11 +73,13 @@ export async function setLevel(id: string, guild: string, level: number): Promis
     const guildCfg: LevelingConfigSchema = await getGuildLevelingSettingFromDb(guild);
 
     let role: string = "";
-    if (guildCfg.reward.get(level)) {
-        role = guildCfg.reward.get(level)
-    } else {
-        for (let i: number = level; i >= 1; i--) {
-            if (guildCfg.reward.get(i)) role = guildCfg.reward.get(i);
+    if (guildCfg.reward.size) {
+        if (guildCfg.reward.get(level)) {
+            role = guildCfg.reward.get(level)
+        } else {
+            for (let i: number = level; i >= 1; i--) {
+                if (guildCfg.reward.get(i)) role = guildCfg.reward.get(i);
+            }
         }
     }
 
