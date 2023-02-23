@@ -21,7 +21,7 @@ export async function handleLeveling(message: Message): Promise<void> {
     if (leveling.allowedChannels.length && !leveling.allowedChannels.includes(message.channelId))
         return;
 
-    let member: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
+    const member: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
 
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));
@@ -30,7 +30,7 @@ export async function handleLeveling(message: Message): Promise<void> {
     }
 
     const msg: Message = msgCache.get(message.author.id).get(message.guildId);
-    if (message.createdTimestamp - msg.createdTimestamp >= leveling.xpInterval) {
+    if (message.createdTimestamp - msg.createdTimestamp >= leveling.xpInterval * 1000) {
         await setExp(member.id, message.guildId, member.exp + randExp(leveling.minXp, leveling.maxXp));
         msgCache.get(message.author.id).set(message.guildId, message);
     }
