@@ -1,4 +1,4 @@
-import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
 import { defaultMemberLevelingSetting } from "../../../utils/defaultSettings.js";
 import { processJsonMemberCfg } from "../../../utils/jsonUtils.js";
 
@@ -14,9 +14,6 @@ export class MemberLevelingSchema {
 
     @prop()
     public level: number;
-
-    @prop()
-    public role: string;
 }
 
 export const MemberLeveling = getModelForClass(MemberLevelingSchema, {
