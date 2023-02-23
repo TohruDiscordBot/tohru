@@ -1,4 +1,4 @@
-import { Collection, Colors, Message } from "discord.js";
+import { Collection, Message } from "discord.js";
 import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../db/schemas/member/MemberLeveling.js";
 import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/guild/LevelingConfig.js";
 
@@ -21,7 +21,7 @@ export async function handleLeveling(message: Message): Promise<void> {
     if (leveling.allowedChannels.length && !leveling.allowedChannels.includes(message.channelId))
         return;
 
-    const member: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
+    let member: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
 
     if (!msgCache.get(message.author.id) || (msgCache.get(message.author.id)) && (!msgCache.get(message.author.id).get(message.guildId))) {
         msgCache.set(message.author.id, new Collection<string, Message>().set(message.guildId, message));
@@ -35,33 +35,30 @@ export async function handleLeveling(message: Message): Promise<void> {
         msgCache.get(message.author.id).set(message.guildId, message);
     }
 
-    for (const level of levelData) {
-        if (level.level === member.level + 1 && member.exp >= level.exp) {
-            await setLevel(member.id, message.guildId, member.level + 1);
+    const newMember: MemberLevelingSchema = await getMemberFromDb(message.author.id, message.guildId);
 
-            let requiredExp: number = 0;
+    if (newMember.level !== member.level) {
+        const currentExp: number = newMember.exp;
+        let reqExp: number = 0;
 
-            for (const lvl of levelData) {
-                if (lvl.level === member.level + 1) {
-                    requiredExp = lvl.exp - member.exp;
+        if (newMember.level < 100)
+            for (let i: number = 1; i < levelData.length; i++) {
+                if ((levelData[i - 1].exp <= currentExp) && (levelData[i].exp >= currentExp)) {
+                    reqExp = levelData[i].exp - currentExp;
                 }
             }
 
-            await message.reply({
-                embeds: [
-                    {
-                        color: Colors.Aqua,
-                        title: "Leveled Up!",
-                        description: `Your new level is ${member.level + 1}`,
-                        footer: {
-                            text: requiredExp <= 0 ? "Maximum level reached" : `${requiredExp} exp until next level`
-                        }
+        await message.reply({
+            embeds: [
+                {
+                    title: "Leveled Up!",
+                    description: `Your new level is ${newMember.level}`,
+                    footer: {
+                        text: reqExp === 0 ? "Maximum level reached" : `Required exp to next level: ${reqExp}`
                     }
-                ]
-            });
-
-            break;
-        }
+                }
+            ]
+        });
     }
 }
 
@@ -69,7 +66,18 @@ function randExp(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export async function setLevel(id: string, guild: string, level: number): Promise<void> {
+export async function updateLevel(id: string, guild: string): Promise<void> {
+    const member: MemberLevelingSchema = await getMemberFromDb(id, guild);
+
+    const exp: number = member.exp;
+    let level: number = 1;
+
+    for (let i: number = 1; i < levelData.length; i++) {
+        if ((levelData[i - 1].exp <= exp) && (levelData[i].exp >= exp)) {
+            level = levelData[i - 1].level;
+        }
+    }
+
     await MemberLeveling.findOneAndUpdate(
         { id, guild },
         {
@@ -78,6 +86,7 @@ export async function setLevel(id: string, guild: string, level: number): Promis
             }
         }
     );
+
 }
 
 export async function setExp(id: string, guild: string, exp: number): Promise<void> {
@@ -90,14 +99,5 @@ export async function setExp(id: string, guild: string, exp: number): Promise<vo
         }
     );
 
-    for (let i: number = 0; i < levelData.length; i++) {
-        if (i + 1 === levelData.length) {
-            await setLevel(id, guild, i + 1);
-            return;
-        }
-        if (levelData[i].exp <= exp && exp <= levelData[i + 1].exp) {
-            await setLevel(id, guild, i);
-            return;
-        }
-    }
+    await updateLevel(id, guild);
 }

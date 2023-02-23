@@ -1,4 +1,4 @@
-import { defaultLevelingSetting, defaultMusicSetting } from "./defaultSettings.js";
+import { defaultLevelingSetting, defaultMemberLevelingSetting, defaultMusicSetting } from "./defaultSettings.js";
 
 export function checkJson(jsonStr: any): boolean {
     try {
@@ -11,15 +11,15 @@ export function checkJson(jsonStr: any): boolean {
 
 export function processJsonCfg(cfg: any, guildId: string, cfgType: ConfigType): any {
     if (typeof cfg === "string") cfg = JSON.parse(cfg);
+    else return null;
+    cfg.id = guildId;
     switch (cfgType) {
         case ConfigType.Leveling:
-            cfg.id = guildId;
             return {
                 ...defaultLevelingSetting(guildId),
                 ...cfg
             };
         case ConfigType.Music:
-            cfg.id = guildId;
             return {
                 ...defaultMusicSetting(guildId),
                 ...cfg
@@ -27,6 +27,17 @@ export function processJsonCfg(cfg: any, guildId: string, cfgType: ConfigType): 
         default:
             return null;
     }
+}
+
+export function processJsonMemberCfg(cfg: any, userId: string, guildId: string): any {
+    if (typeof cfg === "string") cfg = JSON.parse(cfg);
+    else return null;
+    cfg.id = userId;
+    cfg.guild = guildId;
+    return {
+        ...defaultMemberLevelingSetting(userId, guildId),
+        ...cfg
+    };
 }
 
 export enum ConfigType {

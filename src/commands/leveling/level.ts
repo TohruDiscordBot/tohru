@@ -1,5 +1,5 @@
 import { CommandInteraction, ApplicationCommandOptionType, GuildMember, Colors } from "discord.js";
-import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
+import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
 import { registerCommand } from "../index.js";
 
 // @ts-ignore

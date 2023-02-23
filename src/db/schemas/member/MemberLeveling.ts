@@ -1,5 +1,6 @@
-import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
 import { defaultMemberLevelingSetting } from "../../../utils/defaultSettings.js";
+import { processJsonMemberCfg } from "../../../utils/jsonUtils.js";
 
 export class MemberLevelingSchema {
     @prop({ required: true })
@@ -13,9 +14,6 @@ export class MemberLevelingSchema {
 
     @prop()
     public level: number;
-
-    @prop()
-    public rank: number;
 }
 
 export const MemberLeveling = getModelForClass(MemberLevelingSchema, {
@@ -31,7 +29,15 @@ export async function getMemberFromDb(id: string, guildId: string): Promise<Memb
 
     if (!member) {
         member = await MemberLeveling.create(defaultMemberLevelingSetting(id, guildId));
-    }
+    } else
+        member = await MemberLeveling.findOneAndReplace(
+            { id, guild: guildId },
+            processJsonMemberCfg(
+                JSON.stringify(member),
+                id,
+                guildId
+            )
+        );
 
     return member;
 }
