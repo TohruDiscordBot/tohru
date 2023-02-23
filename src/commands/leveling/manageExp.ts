@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember } from "discord.js";
+import { ApplicationCommandOptionType, Colors, CommandInteraction, GuildMember, PermissionFlagsBits } from "discord.js";
 import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
 import { setExp } from "../../modules/leveling.js";
 import { registerCommand } from "../index.js";
@@ -40,6 +40,7 @@ registerCommand({
             required: true
         }
     ],
+    defaultMemberPermissions: PermissionFlagsBits.Administrator,
     async run(interaction: CommandInteraction): Promise<void> {
         const member: GuildMember = await interaction.guild.members.fetch(interaction.options.get("member").user.id);
         const operation: string = interaction.options.get("type").value as string;

@@ -14,7 +14,7 @@ client.on("ready", async () => {
             const uptime: Date = new Date(Date.now() - client.readyAt.getTime());
 
             client.user.setActivity({
-                name: `Online since: ${getDuration(uptime.getTime())}`,
+                name: `Uptime: ${getDuration(uptime.getTime())}`,
                 type: ActivityType.Playing
             })
         }, 10000);
