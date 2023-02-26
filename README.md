@@ -41,6 +41,14 @@ You may notice there is a directory called `conf` that is where configurations
 for some of the bot's modules to work. It is currently mandatory to create and
 fill out all those files for the bot to be working. However you can disable the modules as you want
 
+In the case you cannot access the file system, after defining required environment variables, use `npm run installConf` to automatically download configuration files and set them in place. In order to use this, you must have an App Configuration at Microsoft Azure with key-value set like below
+
+```txt
+botConfig: equivalent to config.json
+nodeList: equivalent to nodes.json
+levelData: equivalent to levels.json
+```
+
 Then build the project
 
 ```bash
