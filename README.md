@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TohruDiscordBot/tohru/dev/assets/Tohru_2.png" />
+  <img src="https://raw.githubusercontent.com/TohruDiscordBot/tohru/main/assets/Tohru_2.png" />
 </p>
 
 # Tohru
