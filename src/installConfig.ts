@@ -1,3 +1,5 @@
+(await import("dotenv")).config();
+
 import { DotenvAzure } from "dotenv-azure";
 import { mkdirSync, existsSync, writeFileSync } from "fs";
 
