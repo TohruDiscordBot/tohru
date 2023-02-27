@@ -9,6 +9,8 @@ COPY . .
 
 RUN ["npm", "run", "installConfig"]
 
+ENV AZURE_APP_CONFIGURATION_CONNECTION_STRING=${AZURE_APP_CONFIGURATION_CONNECTION_STRING}
+
 RUN ["npm", "run", "build"]
 
 CMD ["npm", "start"]
