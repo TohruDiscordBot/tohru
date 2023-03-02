@@ -13,6 +13,12 @@ registerCommand({
             description: "❓ Positions, separated with commas, of the songs to be removed.",
             type: ApplicationCommandOptionType.String,
             required: true
+        },
+        {
+            name: "prev",
+            description: "❓ Whether to delete tracks in previous queue or not.",
+            type: ApplicationCommandOptionType.Boolean,
+            required: false
         }
     ],
     async run(interaction: CommandInteraction): Promise<void> {
@@ -24,9 +30,14 @@ registerCommand({
                 } catch (e: any) { }
             });
 
+        const prev: boolean = interaction.options.get("prev") ?
+            interaction.options.get("prev").value as boolean :
+            false;
+
         for (const i of options) {
             try {
-                player.queue.tracks.splice(i - 1, 1);
+                if (!prev) player.queue.tracks.splice(i - 1, 1);
+                else player.prev.splice(i - 1, 1);
             } catch (e: any) { }
         }
 
