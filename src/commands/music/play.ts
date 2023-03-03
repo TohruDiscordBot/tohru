@@ -27,10 +27,18 @@ registerCommand({
             description: "📎 The url to the track.",
             type: ApplicationCommandOptionType.String,
             required: true
+        },
+        {
+            name: "next",
+            description: "❓ Whether to place the song to the first.",
+            type: ApplicationCommandOptionType.Boolean,
+            required: false
         }
     ],
     async run(interaction: CommandInteraction): Promise<void> {
         const url: string = interaction.options.get("url").value as string;
+        const next: boolean = interaction.options.get("next") ?
+            interaction.options.get("next").value as boolean : false;
         const member: GuildMember = await interaction.guild.members.fetch(
             interaction.user.id
         );
@@ -84,7 +92,7 @@ registerCommand({
         switch (result.loadType) {
             case "SEARCH_RESULT":
             case "TRACK_LOADED":
-                player.queue.add(result.tracks[0], { requester: member.user.id });
+                player.queue.add(result.tracks[0], { requester: member.user.id, next });
                 await interaction.editReply({
                     embeds: [
                         {
@@ -98,7 +106,7 @@ registerCommand({
                 });
                 break;
             case "PLAYLIST_LOADED":
-                player.queue.add(result.tracks, { requester: member.user.id });
+                player.queue.add(result.tracks, { requester: member.user.id, next });
                 await interaction.editReply({
                     embeds: [
                         {
@@ -120,7 +128,7 @@ registerCommand({
                         }
                     ]
                 });
-                break;
+                return;
             case "LOAD_FAILED":
                 await interaction.editReply({
                     embeds: [
@@ -130,7 +138,7 @@ registerCommand({
                         }
                     ]
                 });
-                break;
+                return;
         }
 
         if (!player.connected) {
