@@ -2,13 +2,13 @@
 import { Guild } from "discord.js";
 import { Cluster, ClusterNode } from "lavaclient";
 import { client } from "../client.js";
+import { NodeData, NodeDataSchema } from "../db/schemas/config/NodeData.js";
 import { logger } from "../utils/logger.js";
 
-// @ts-ignore
-import nodes from "../../conf/nodes.json" assert { type: "json" };
+const nodes: NodeDataSchema = await NodeData.findOne();
 
 export const cluster: Cluster = new Cluster({
-    nodes,
+    nodes: nodes.data,
     sendGatewayPayload: async (id: string, payload) => {
         const guild: Guild = await client.guilds.fetch(id);
         if (guild) guild.shard.send(payload, true);

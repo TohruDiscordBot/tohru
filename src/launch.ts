@@ -1,7 +1,7 @@
 import { client } from "./client.js";
 import { loader } from "./utils/loader.js";
 import { logger } from "./utils/logger.js";
-import "./db/index.js";
+await import("./db/index.js")
 
 logger.info(`[CLIENT] [SHARD #${client.shard.ids}] Initializing...`);
 
