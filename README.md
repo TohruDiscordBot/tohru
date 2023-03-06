@@ -37,17 +37,15 @@ npm install
 After installing all dependencies, configure the bot by copying and renaming the
 `.env.example` file. Fill all fields in as instructed in the file
 
-You may notice there is a directory called `conf` that is where configurations
-for some of the bot's modules to work. It is currently mandatory to create and
-fill out all those files for the bot to be working. However you can disable the modules as you want
-
-In the case you cannot access the file system, after defining required environment variables, use `npm run installConf` to automatically download configuration files and set them in place. In order to use this, you must have an App Configuration at Microsoft Azure with key-value set like below
+All configs are stored in the MongoDB instance, with the outline (collection names) like below:
 
 ```txt
-botConfig: equivalent to config.json
-nodeList: equivalent to nodes.json
-levelData: equivalent to levels.json
+botConfigs: used to store bot configuration
+nodeDatas: used to store Lavalink nodes data
+levelDatas: used to store leveling data
 ```
+
+For further information on what to fill in the database, checkout `src/db/schemas` to see the structure for each collection
 
 Then build the project
 
@@ -58,7 +56,7 @@ npm run build
 You can also use `tsc` command if you already have global Typescript compiler
 installed
 
-You can now run the bot. Simply typing this into the console
+You can now run the bot by typing this into the console
 
 ```bash
 npm start
@@ -66,5 +64,5 @@ npm start
 
 ## Contribution
 
-All contributions are welcomed. Simply clone the dev branch and make a pull
-request if you want to change anything
+All contributions are welcomed. Simply clone the `dev` branch and make a pull
+request if you want to change anything.
