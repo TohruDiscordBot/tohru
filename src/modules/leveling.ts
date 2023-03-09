@@ -1,16 +1,15 @@
 import { Collection, Message } from "discord.js";
 import { getMemberFromDb, MemberLeveling, MemberLevelingSchema } from "../db/schemas/member/MemberLeveling.js";
 import { getGuildLevelingSettingFromDb, LevelingConfigSchema } from "../db/schemas/guild/LevelingConfig.js";
-
-// @ts-ignore
-import levelData from "../../conf/levels.json" assert { type: "json" };
-// @ts-ignore
-import config from "../../conf/config.json" assert { type: "json" };
+import { BotConfig, BotConfigSchema } from "../db/schemas/config/BotConfig.js";
+import { LevelData } from "../db/schemas/config/LevelData.js";
 
 const msgCache: Collection<string, Collection<string, Message>> = new Collection();
+const levelData = (await LevelData.findOne()).data;
 
 export async function handleLeveling(message: Message): Promise<void> {
-    if (!config.leveling.enable) return;
+    const botConfig: BotConfigSchema = await BotConfig.findOne();
+    if (botConfig.modules.leveling) return;
     const leveling: LevelingConfigSchema = await getGuildLevelingSettingFromDb(message.guildId);
 
     if (!leveling.enable) return;

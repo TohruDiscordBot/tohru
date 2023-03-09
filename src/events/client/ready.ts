@@ -1,5 +1,6 @@
 import { ActivityType } from "discord.js";
 import { client } from "../../client.js";
+import { BotConfig, BotConfigSchema } from "../../db/schemas/config/BotConfig.js";
 import { cluster } from "../../modules/music.js";
 import { logger } from "../../utils/logger.js";
 import { getDuration } from "../../utils/timeUtils.js";
@@ -20,7 +21,9 @@ client.on("ready", async () => {
         }, 10000);
     }
 
-    cluster.connect(client.user.id);
+    const botConfig: BotConfigSchema = await BotConfig.findOne();
+
+    if (botConfig.modules.music) cluster.connect(client.user.id);
 
     logger.info(`[READY] [SHARD #${client.shard.ids}] Logged in as ${client.user.tag}.`);
 });

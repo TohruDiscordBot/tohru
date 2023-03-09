@@ -3,8 +3,7 @@
     "type": "module",
     "scripts": {
         "start": "node .",
-        "build": "tsc",
-        "installConfig": "tsc && node dist/installConfig.js"
+        "build": "tsc"
     },
     "devDependencies": {
         "@types/node": "^18.11.18",

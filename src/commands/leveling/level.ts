@@ -1,9 +1,9 @@
 import { CommandInteraction, ApplicationCommandOptionType, GuildMember, Colors } from "discord.js";
+import { LevelData } from "../../db/schemas/config/LevelData.js";
 import { getMemberFromDb, MemberLevelingSchema } from "../../db/schemas/member/MemberLeveling.js";
 import { registerCommand } from "../index.js";
 
-// @ts-ignore
-import levelData from "../../../conf/levels.json" assert { type: "json" };
+const levelData = (await LevelData.findOne()).data;
 
 registerCommand({
     name: "level",
