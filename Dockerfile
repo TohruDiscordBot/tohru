@@ -20,9 +20,6 @@ RUN ["npm", "install"]
 
 COPY . .
 
-RUN ["npm", "run", "installConfig"]
-
-
 RUN ["npm", "run", "build"]
 
 CMD ["npm", "start"]
