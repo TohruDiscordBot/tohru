@@ -3,7 +3,7 @@ import { updateCommands } from "../../utils/updateCommands.js";
 import { registerCommand } from "../index.js";
 
 registerCommand({
-    name: "renewCommands",
+    name: "renewcommands",
     description: "🔃 Remove all commands and push them again to Discord.",
     preconditions: ["requireOwner"],
     async run(interaction: CommandInteraction): Promise<void> {
