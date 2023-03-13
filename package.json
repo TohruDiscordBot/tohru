@@ -16,7 +16,7 @@
         "@lavaclient/types": "^2.1.1",
         "@typegoose/typegoose": "^10.0.0",
         "discord-cross-hosting": "^2.2.4",
-        "discord-hybrid-sharding": "github:meister03/discord-hybrid-sharding",
+        "discord-hybrid-sharding": "^2.1.1",
         "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "dotenv-azure": "^2.0.0",
