@@ -22,4 +22,4 @@ COPY . .
 
 RUN ["npm", "run", "build"]
 
-CMD if [[${AGENT} = "BOT"]]; then npm run start; else npm run startBridge; fi
+CMD if [["$AGENT" = "BOT"]]; then npm run start; else npm run startBridge; fi
