@@ -1,5 +1,6 @@
 (await import("dotenv")).config();
-import { ClusterClient } from "discord-hybrid-sharding";
+import { ClusterClient, getInfo } from "discord-hybrid-sharding";
+import Bridge from "discord-cross-hosting";
 import { Client, Collection, Options } from "discord.js";
 import { Command } from "./types/Command.js";
 import { Precondition } from "./types/Precondition.js";
@@ -10,7 +11,8 @@ declare module "discord.js" {
         commands: Collection<string, Command>,
         preconditions: Collection<string, Precondition>,
         buttons: Collection<string, (interaction: ButtonInteraction) => Promise<void>>,
-        cluster: ClusterClient<Client>
+        cluster: ClusterClient<Client>,
+        machine: Bridge.Shard
     }
 }
 
@@ -27,10 +29,13 @@ export const client: Client = new Client({
         ...Options.DefaultMakeCacheSettings,
         MessageManager: 25,
         ReactionManager: 0
-    })
+    }),
+    shards: getInfo().SHARD_LIST,
+    shardCount: getInfo().TOTAL_SHARDS
 });
 
 client.commands = new Collection();
 client.preconditions = new Collection();
 client.buttons = new Collection();
 client.cluster = new ClusterClient(client);
+client.machine = new Bridge.Shard(client.cluster);

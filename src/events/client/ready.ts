@@ -8,7 +8,7 @@ import { getDuration } from "../../utils/timeUtils.js";
 import { updateCommands } from "../../utils/updateCommands.js";
 
 client.on("ready", async () => {
-    if (client.cluster.ids.length === 1) {
+    if (client.cluster.ids.size === 1) {
         await updateCommands();
 
         setInterval(() => {
