@@ -1,5 +1,5 @@
 (await import("dotenv")).config();
-import { ApplicationCommandOption, ApplicationCommandOptionType, GatewayIntentBits, IntentsBitField } from "discord.js";
+import { ApplicationCommandOptionData, ApplicationCommandOptionType, GatewayIntentBits, IntentsBitField } from "discord.js";
 
 export const GATEWAY_INTENTS: GatewayIntentBits[] = [
     IntentsBitField.Flags.Guilds,
@@ -10,7 +10,7 @@ export const GATEWAY_INTENTS: GatewayIntentBits[] = [
     IntentsBitField.Flags.GuildVoiceStates
 ];
 
-export const MODULE_OPTION: ApplicationCommandOption = {
+export const MODULE_OPTION: ApplicationCommandOptionData = {
     name: "module",
     description: "📰 Name of the module.",
     type: ApplicationCommandOptionType.String,
