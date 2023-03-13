@@ -2,7 +2,7 @@
     "main": "dist/index.js",
     "type": "module",
     "scripts": {
-        "start": "node .",
+        "start": "node dist/index.js",
         "build": "tsc",
         "startBridge": "node dist/bridge.js",
         "start:auto": "if [ \"$AGENT\" = \"BOT\" ]; then npm start; else npm run startBridge; fi"
