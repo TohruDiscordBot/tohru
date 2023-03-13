@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "start": "node .",
-        "build": "tsc"
+        "build": "tsc",
+        "startBridge": "node dist/bridge.js"
     },
     "devDependencies": {
         "@types/node": "^18.11.18",
@@ -14,6 +15,8 @@
         "@lavaclient/queue": "^2.1.1",
         "@lavaclient/types": "^2.1.1",
         "@typegoose/typegoose": "^10.0.0",
+        "discord-cross-hosting": "^2.2.4",
+        "discord-hybrid-sharding": "github:meister03/discord-hybrid-sharding",
         "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "dotenv-azure": "^2.0.0",

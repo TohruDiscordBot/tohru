@@ -8,7 +8,7 @@ import { getDuration } from "../../utils/timeUtils.js";
 import { updateCommands } from "../../utils/updateCommands.js";
 
 client.on("ready", async () => {
-    if (client.shard.ids.length === 1) {
+    if (client.cluster.ids.size === 1) {
         await updateCommands();
 
         setInterval(() => {
@@ -22,6 +22,7 @@ client.on("ready", async () => {
         }, 10000);
 
         setInterval(async () => {
+            logger.info(`Performing nodes' checkup...`)
             for (const a of cluster.nodes.entries()) {
                 if (a[1].state === NodeState.Disconnected)
                     await a[1].conn.reconnect();
@@ -33,5 +34,5 @@ client.on("ready", async () => {
 
     if (botConfig.modules.music) cluster.connect(client.user.id);
 
-    logger.info(`[READY] [SHARD #${client.shard.ids}] Logged in as ${client.user.tag}.`);
+    logger.info(`Logged in as ${client.user.tag}.`);
 });
