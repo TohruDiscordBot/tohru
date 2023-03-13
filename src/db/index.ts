@@ -10,10 +10,10 @@ try {
         retryReads: true,
         retryWrites: true
     });
-    logger.info(`[MONGODB] Successfully connected to MongoDB instance.`);
+    logger.info("Successfully connected to MongoDB instance.");
 } catch (e) {
-    logger.error(`[MONGODB] Failed to set up a connection to MongoDB instance at URL ${process.env.MONGODB_URL}.`);
-    logger.error(`[MONGODB] ` + e);
+    logger.error(`Failed to set up a connection to MongoDB instance at URL ${process.env.MONGODB_URL}.`);
+    logger.error(e);
 }
 
 export { };
