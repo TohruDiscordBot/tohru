@@ -16,13 +16,13 @@ export const cluster: Cluster = new Cluster({
 });
 
 cluster.on("nodeConnect",
-    (node: ClusterNode) => logger.info(`[LAVALINK] [SHARD #${client.shard.ids}] Node ${node.conn.info.host} connected.`)
+    (node: ClusterNode) => logger.info(`Node ${node.conn.info.host} connected.`)
 );
 
 cluster.on("nodeDisconnect",
-    (node: ClusterNode) => logger.warn(`[LAVALINK] [SHARD #${client.shard.ids}] Node ${node.conn.info.host} disconnected.`)
+    (node: ClusterNode) => logger.warn(`Node ${node.conn.info.host} disconnected.`)
 );
 
 cluster.on("nodeError",
-    (node: ClusterNode) => logger.error(`[LAVALINK] [SHARD #${client.shard.ids}] Node ${node.conn.info.host} encountered an error.`)
+    (node: ClusterNode) => logger.error(`Node ${node.conn.info.host} encountered an error.`)
 );

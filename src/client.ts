@@ -1,4 +1,5 @@
 (await import("dotenv")).config();
+import { ClusterClient } from "discord-hybrid-sharding";
 import { Client, Collection, Options } from "discord.js";
 import { Command } from "./types/Command.js";
 import { Precondition } from "./types/Precondition.js";
@@ -8,7 +9,8 @@ declare module "discord.js" {
     export interface Client {
         commands: Collection<string, Command>,
         preconditions: Collection<string, Precondition>,
-        buttons: Collection<string, (interaction: ButtonInteraction) => Promise<void>>
+        buttons: Collection<string, (interaction: ButtonInteraction) => Promise<void>>,
+        cluster: ClusterClient<Client>
     }
 }
 
@@ -31,3 +33,4 @@ export const client: Client = new Client({
 client.commands = new Collection();
 client.preconditions = new Collection();
 client.buttons = new Collection();
+client.cluster = new ClusterClient(client);

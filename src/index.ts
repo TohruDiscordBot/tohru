@@ -1,18 +1,25 @@
 (await import("dotenv")).config();
-import { Shard, ShardingManager } from "discord.js";
 import { logger } from "./utils/logger.js";
+import { Cluster, ClusterManager } from "discord-hybrid-sharding";
+import { IS_DEV } from "./utils/constants.js";
 
-const manager: ShardingManager = new ShardingManager(
-    "dist/launch.js",
-    {
-        token: process.env.DISCORD_TOKEN,
-        respawn: true,
-        totalShards: "auto"
-    }
-);
-
-manager.on("shardCreate", (shard: Shard) => {
-    logger.info(`[SHARDING MANAGER] Shard #${shard.id} spawned.`)
+const manager: ClusterManager = new ClusterManager("dist/launch.js", {
+    totalShards: "auto",
+    token: process.env.DISCORD_TOKEN,
+    mode: "process",
+    shardsPerClusters: 10
 });
 
-await manager.spawn();
+manager.on("clusterCreate", (cluster: Cluster) => {
+    logger.info(`Cluster #${cluster.id} created.`);
+});
+
+manager.on("clusterReady", (cluster: Cluster) => {
+    logger.info(`Cluster #${cluster.id} is ready.`);
+});
+
+manager.on("debug", (msg: string) => {
+    if (IS_DEV) logger.debug(msg);
+});
+
+await manager.spawn({ timeout: -1 });
